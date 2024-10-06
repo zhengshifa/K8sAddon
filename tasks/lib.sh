@@ -3,14 +3,10 @@
 # 全局变量
 base_dir=/etc/k8s-addon
 
-#加载公共模块
-. ${base_dir}/tasks/lib.sh
-
 # 日志模块
-APPNAME=$(basename "$0" | sed "s/\.sh$//")
-fn_log_info()  { echo "$APPNAME: $1"; }
-fn_log_warn()  { echo "$APPNAME: [WARNING] $1" 1>&2; }
-fn_log_error() { echo "$APPNAME: [ERROR] $1" 1>&2; }
+fn_log_info()  { echo " $1"; }
+fn_log_warn()  { echo " [WARNING] $1" 1>&2; }
+fn_log_error() { echo " [ERROR] $1" 1>&2; }
 
 # j2模板文件渲染
 fn_j2_to_files() {

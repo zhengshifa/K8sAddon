@@ -9,4 +9,4 @@ base_dir=/etc/k8s-addon
 
 
 #
-fn_helm_deploy
+deploy.sh
