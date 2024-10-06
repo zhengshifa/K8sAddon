@@ -20,7 +20,7 @@ jobs:
           user: ${{ secrets.DEPLOY_USER }}
           pass: ${{ secrets.PASS }}
           port: ${{ secrets.DC_PORT }}
-          connect_timeout: 10s
+          connect_timeout: 60s
           first_ssh: |-
             rm -rf /etc/k8s-addon/*
             mkdir -p /etc/k8s-addon/

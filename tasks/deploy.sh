@@ -1,8 +1,15 @@
 #!/bin/bash
 ## 部署
 
+# 全局变量
+base_dir=/etc/k8s-addon
+
 #加载公共模块
-. ./lib.sh
+. ${base_dir}/tasks/lib.sh
+
+main() {
+    fn_helm_deploy
+}
 
 # 部署/删除/升级/回滚/版本控制
 fn_helm_deploy() {
@@ -32,3 +39,4 @@ fn_helm_deploy() {
     done
 
 }
+main

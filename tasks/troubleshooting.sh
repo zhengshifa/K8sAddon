@@ -1,6 +1,8 @@
 #!/bin/bash
 ## 部署
 
-#加载公共模块
-. ./lib.sh
+# 全局变量
+base_dir=/etc/k8s-addon
 
+#加载公共模块
+. ${base_dir}/tasks/lib.sh

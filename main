@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
-#
-source tasks/*.sh
+
+# 全局变量
+base_dir=/etc/k8s-addon
+
+#加载公共模块
+. ${base_dir}/tasks/*.sh
+
 
 #
 fn_helm_deploy

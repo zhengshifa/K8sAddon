@@ -3,6 +3,9 @@
 # 全局变量
 base_dir=/etc/k8s-addon
 
+#加载公共模块
+. ${base_dir}/tasks/lib.sh
+
 # 日志模块
 APPNAME=$(basename "$0" | sed "s/\.sh$//")
 fn_log_info()  { echo "$APPNAME: $1"; }
