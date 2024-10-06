@@ -19,7 +19,7 @@ fn_deploy() {
         . $file # 加载配置变量文件
         shopt -s nocasematch  # 开启不区分大小写
 
-        if [ -n ${helm_install} ];then
+        if [ -n "$helm_install" ];then
             fn_helm_deploy
         else
             fn_yaml_deploy

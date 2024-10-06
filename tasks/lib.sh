@@ -13,7 +13,9 @@ fn_j2_to_files() {
 
     for values in ${base_dir}/templates/${filename}/*.j2; do
         . vars/${filename}
-        envsubst < $values > ${values%.*}
+        configContent=$(cat ${base_dir}/vars/${filename})
+        yamlTemplate=$(cat ${values})
+        printf "$configContent\ncat << EOF\n${yamlTemplate}\nEOF" |bash > ${values%.*}
         [ $? = '0' ] && fn_log_info "渲染成功,生成文件 ${values%.*}"
     done
 
