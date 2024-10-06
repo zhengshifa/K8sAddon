@@ -37,12 +37,13 @@ fn_helm_deploy() {
         # helm部署app
         helm upgrade ${release_name} --install --create-namespace \
         -n ${namespace} -f ${base_dir}/templates/${filename}/values.yaml \
-        ${base_dir}/files/${filename}-${chart_ver}.tgz $>/dev/null
-        [ $? == 0 ] || fn_log_error "helm安装 ${release_name} 失败" ; continue
+        ${base_dir}/files/${filename}-${chart_ver}.tgz &>/dev/null
+        [ $? == 0 ] && fn_log_info "${filename} 使用helm安装成功 release名字为 ${release_name}" || fn_log_error "helm安装 ${release_name} 失败"
     elif [  "$helm_install" == 'no' ];then
         # 删除app
-        helm uninstall ${release_name} -n ${namespace} $>/dev/null
-        [ $? == 0 ] || fn_log_error "helm删除 ${release_name} 失败" ; continue
+        helm uninstall ${release_name} -n ${namespace} &>/dev/null
+        [ $? == 0 ] && fn_log_info "${filename} 使用helm删除成功 release名字为 ${release_name}" || fn_log_error "${filename} 使用helm删除失败 release名字为 ${release_name}" 
+
     else
         fn_log_error "$file 变量helm_install参数值未设置正确" ; continue
     fi
@@ -54,12 +55,12 @@ fn_yaml_deploy() {
     if [ "$yaml_install" == 'yes' ];then
         fn_j2_to_files  # 模板文件渲染
         # yaml部署app
-        kubectl apply -f ${base_dir}/templates/${filename}/
-        [ $? == 0 ] || fn_log_error "安装 ${release_name} yaml资源 失败" ; continue
+        kubectl apply -f ${base_dir}/templates/${filename}/  &>/dev/null
+        [ $? == 0 ] && fn_log_info "yaml 部署 ${filename}资源成功" || fn_log_error "安装 ${release_name} yaml资源 失败" ; continue
     elif [  "$yaml_install" == 'no' ];then
         # 删除app
-        kubectl delete -f ${base_dir}/templates/${filename}/
-        [ $? == 0 ] || fn_log_error "删除 ${release_name} yaml资源 失败" ; continue
+        kubectl delete -f ${base_dir}/templates/${filename}/  &>/dev/null
+        [ $? == 0 ] && fn_log_info "yaml 删除 ${filename}资源成功" || fn_log_error "删除 ${release_name} yaml资源 失败" ; continue
     else
         fn_log_error "$file 变量yaml_install参数值未设置正确" ; continue
     fi
