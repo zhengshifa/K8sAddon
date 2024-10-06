@@ -1,6 +1,6 @@
 # mysql-operator
 
-install=""
-namespace=""
-chart_ver=""
-release_name=""
+install="yes"
+namespace="mysql-operator"
+chart_ver="1.15.0"
+release_name="mysql-operator"
