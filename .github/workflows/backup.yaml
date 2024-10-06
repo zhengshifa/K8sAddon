@@ -28,5 +28,4 @@ jobs:
             './*' => /etc/k8s-addon/
           last_ssh: |-
             chmod +x /etc/k8s-addon/tasks/*.sh
-            chmod +x /etc/k8s-addon/main
-            sh /etc/k8s-addon/main
+            sh /etc/k8s-addon/tasks/deploy.sh

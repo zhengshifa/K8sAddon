@@ -19,10 +19,10 @@ fn_helm_deploy() {
         (
             filename=$(basename "$file")
             . $file # 加载配置变量文件
-            fn_j2_to_files  # 模板文件渲染
             shopt -s nocasematch  # 开启不区分大小写
 
             if [ "$install" == 'yes' ];then
+                fn_j2_to_files  # 模板文件渲染
                 # helm部署app
                 helm upgrade ${release_name} --install --create-namespace \
                 -n ${namespace} -f ${base_dir}/templates/${filename}/values.yaml \
@@ -35,6 +35,7 @@ fn_helm_deploy() {
             else
                 fn_log_error "$file 变量install参数值未设置正确"
             fi
+            sleep 1
         )
     done
 
