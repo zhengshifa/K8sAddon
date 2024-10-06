@@ -1,0 +1,136 @@
+replicas: 1
+watchNamespaces: []
+watchAnyNamespace: false
+defaultImageRegistry: quay.io
+defaultImageRepository: strimzi
+defaultImageTag: 0.43.0
+image:
+  registry: ""
+  repository: ""
+  name: operator
+  tag: ""
+logVolume: co-config-volume
+logConfigMap: strimzi-cluster-operator
+logConfiguration: ""
+logLevel: ${env:STRIMZI_LOG_LEVEL:-INFO}
+fullReconciliationIntervalMs: 120000
+operationTimeoutMs: 300000
+kubernetesServiceDnsDomain: cluster.local
+featureGates: ""
+tmpDirSizeLimit: 1Mi
+extraEnvs: []
+tolerations: []
+affinity: {}
+annotations: {}
+labels: {}
+nodeSelector: {}
+priorityClassName: ""
+podSecurityContext: {}
+securityContext: {}
+rbac:
+  create: yes
+serviceAccountCreate: yes
+serviceAccount: strimzi-cluster-operator
+leaderElection:
+  enable: true
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
+  maxUnavailable:
+dashboards:
+  enabled: false
+  namespace: ~
+  label: grafana_dashboard # this is the default value from the grafana chart
+  labelValue: "1" # this is the default value from the grafana chart
+  annotations: {}
+  extraLabels: {}
+kafka:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka
+    tagPrefix: ""
+kafkaConnect:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka
+    tagPrefix: ""
+topicOperator:
+  image:
+    registry: ""
+    repository: ""
+    name: operator
+    tag: ""
+userOperator:
+  image:
+    registry:
+    repository:
+    name: operator
+    tag: ""
+kafkaInit:
+  image:
+    registry: ""
+    repository: ""
+    name: operator
+    tag: ""
+kafkaMirrorMaker:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka
+    tagPrefix: ""
+kafkaBridge:
+  image:
+    registry: ""
+    repository:
+    name: kafka-bridge
+    tag: 0.30.0
+kafkaExporter:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka
+    tagPrefix: ""
+kafkaMirrorMaker2:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka
+    tagPrefix: ""
+cruiseControl:
+  image:
+    registry: ""
+    repository: ""
+    name: kafka
+    tagPrefix: ""
+kanikoExecutor:
+  image:
+    registry: ""
+    repository: ""
+    name: kaniko-executor
+    tag: ""
+mavenBuilder:
+  image:
+    registry: ""
+    repository: ""
+    name: maven-builder
+    tag: ""
+resources:
+  limits:
+    memory: 384Mi
+    cpu: 1000m
+  requests:
+    memory: 384Mi
+    cpu: 200m
+livenessProbe:
+  initialDelaySeconds: 10
+  periodSeconds: 30
+readinessProbe:
+  initialDelaySeconds: 10
+  periodSeconds: 30
+createGlobalResources: true
+createAggregateRoles: false
+labelsExclusionPattern: ""
+generateNetworkPolicy: true
+connectBuildTimeoutMs: 300000

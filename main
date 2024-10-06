@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+#
+source tasks/*.sh
+
+#
+deploy.sh

@@ -1,0 +1,158 @@
+#!/bin/bash
+
+### 功能:渲染helm tgz文件里面的原始镜像然后同步到本地仓库 ### sh isync xxx.tgz yyy.tgz or  sh isync 
+
+main() {
+    install_image_syncer
+    image_syncer $ALL_USAGE
+}
+
+##配置变量
+local_registry='chinamobile.com'
+default_tag='latest'
+default_repository='library'
+harbor_user=admin
+harbor_pass=Harbor12345
+
+#检查输入的参数
+if [ $# -eq 0 ]; then
+    #echo "Usage: $0 <helm-tgz-file>"
+    #exit 1
+    ALL_USAGE=$(\ls *.tgz 2>/dev/null)
+else
+    ALL_USAGE="$@"
+fi
+
+
+
+#配置私有harbor仓库
+cat > auth.yaml <<EOF
+$local_registry:
+  username: $harbor_user
+  password: $harbor_pass
+  insecure: true
+EOF
+
+
+#生成~/.docker/config.json配置
+auth_base=`echo -n "$harbor_user:$harbor_pass" | base64 -w 0`
+if [ ! -f ~/.docker/config.json ];then
+
+cat > ~/.docker/config.json <<EOF
+{
+	"auths": {
+		"$local_registry": {
+			"auth": "${auth_base}"
+		}
+	}
+}
+EOF
+fi
+
+logger() {
+  TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S')
+  case "$1" in
+    debug)
+      echo -e "$TIMESTAMP \033[36mDEBUG\033[0m $2"
+      ;;
+    info)
+      echo -e "$TIMESTAMP \033[32mINFO\033[0m $2"
+      ;;
+    warn)
+      echo -e "$TIMESTAMP \033[33mWARN\033[0m $2"
+      ;;
+    error)
+      echo -e "$TIMESTAMP \033[31mERROR\033[0m $2"
+      ;;
+    *)
+      ;;
+  esac
+}
+
+create_repo() {
+    #创建repo
+    response=$(curl -s -X GET --max-time 3 -H "Content-Type: application/json" -H "Authorization: Basic $auth_base" http://$local_registry/api/v2.0/projects?name=$repo)
+
+    if [[ $response == "[]" || $response == "" ]]; then
+        # 如果项目不存在，创建项目
+        curl -s -X POST --max-time 3 -H "Content-Type: application/json" -H "Authorization: Basic $auth_base" \
+        -d "{\"project_name\": \"${repo}\", \"public\": true}" \
+        http://$local_registry/api/v2.0/projects ||  { logger error "curl创建harbor仓库失败,请检查harbor配置信息"; exit 1; }
+    fi
+}
+
+
+install_image_syncer() {
+if ! command -v image-syncer >/dev/null 2>&1; then
+    echo "正在下载同步工具image-syncer"
+    #export https_proxy='10.248.68.185:3128'
+    #export http_proxy='10.248.68.185:3128'
+    wget -O - https://gh.con.sh/https://github.com/AliyunContainerService/image-syncer/releases/download/v1.5.5/image-syncer-v1.5.5-linux-amd64.tar.gz | sudo tar -xzf - -C /bin/ 
+    chmod +x /bin/image-syncer
+fi
+}
+
+
+image_syncer() {
+{
+for tgz_file in "$@"; do
+    if [[ "$tgz_file" == *.tgz ]]; then
+        helm template "$tgz_file" | awk '/image:/ && NF && $1 !~ /^#/ {
+            if ($2 == "") {
+                getline; 
+                if ($0 ~ /[a-zA-Z0-9_.-]+:[a-zA-Z0-9_.-]+|[a-zA-Z0-9]+\/[a-zA-Z0-9_.-]+:[a-zA-Z0-9_.-]+/) print $0 
+            } else {
+                if ($2 ~ /[a-zA-Z0-9_.-]+:[a-zA-Z0-9_.-]+|[a-zA-Z0-9]+\/[a-zA-Z0-9_.-]+:[a-zA-Z0-9_.-]+/) print $2 
+            } 
+        }' | sed "s/[\"']//g"  | while IFS= read -r image; do
+                                        old_image=$image
+                                        if [[ $(echo $image | grep -o "/" | wc -l) -gt 1 ]]; then
+                                            if [[ $image == *:* ]]; then
+                                                # 处理带标签的镜像
+                                                modified_image=${image#*/}
+                                                new_image=$local_registry/$modified_image
+                                                echo $old_image: $new_image
+                                            else
+                                                # 处理没有标签的镜像
+                                                modified_image=${image#*/}
+                                                new_image=$local_registry/$modified_image:$default_tag
+                                                echo $old_image: $new_image
+                                            fi
+                                        elif [[ $(echo $image | grep -o "/" | wc -l) -eq 1 ]]; then
+                                            if [[ $image == *:* ]]; then
+                                                # 处理带标签的镜像
+                                                new_image=$local_registry/$image
+                                                echo $old_image: $new_image
+
+                                            else
+                                                # 处理没有标签的镜像
+                                                new_image=$local_registry/$image:$default_tag
+                                                echo $old_image: $new_image
+
+                                            fi
+                                        else
+                                            if [[ $image == *:* ]]; then
+                                                # 处理带标签的镜像
+                                                new_image=$local_registry/$default_repository/$image
+                                                echo $old_image: $new_image
+
+                                            else
+                                                # 处理没有标签的镜像
+                                                new_image=$local_registry/$default_repository/$image:$default_tag
+                                                echo $old_image: $new_image
+
+                                            fi
+                                        fi
+                                        repo=$(echo "$new_image" | cut -d'/' -f2)
+                                        create_repo
+                                    done
+
+    else
+        continue
+    fi
+done
+} > images.yaml
+image-syncer --proc=6  --retries=3 --images=images.yaml --auth=auth.yaml
+}
+
+main

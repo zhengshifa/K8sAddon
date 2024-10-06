@@ -1,0 +1,6 @@
+# mysql-operator
+
+install=""
+namespace=""
+chart_ver=""
+release_name=""

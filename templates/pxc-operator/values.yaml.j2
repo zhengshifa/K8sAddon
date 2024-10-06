@@ -1,0 +1,28 @@
+replicaCount: 1
+operatorImageRepository: percona/percona-xtradb-cluster-operator
+imagePullPolicy: IfNotPresent
+image: ""
+watchAllNamespaces: false
+rbac:
+  create: true
+serviceAccount:
+  create: true
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+resources:
+  limits:
+    cpu: 200m
+    memory: 500Mi
+  requests:
+    cpu: 100m
+    memory: 20Mi
+containerSecurityContext: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+podAnnotations: {}
+logStructured: false
+logLevel: "INFO"
+disableTelemetry: false
+extraEnvVars: []
