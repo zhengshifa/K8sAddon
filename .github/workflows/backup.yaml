@@ -1,0 +1,30 @@
+name: backup to Remote Host
+
+on:
+  push:
+    branches:
+      - main  # 根据需要调整分支名称
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: backup to Remote Host
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          user: ${{ secrets.DEPLOY_USER }}
+          pass: ${{ secrets.PASS }}
+          connect_timeout: 10s
+          first_ssh: |-
+            rm -rf /etc/k8s-addon/*
+            mkdir -p /etc/k8s-addon/
+          scp: |-
+            './*' => /etc/k8s-addon/
+          last_ssh: |-
+            chmod +x /etc/k8s-addon/tasks/*.sh
+            chmod +x /etc/k8s-addon/main
+            sh /etc/k8s-addon/main

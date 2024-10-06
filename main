@@ -4,4 +4,4 @@
 source tasks/*.sh
 
 #
-deploy.sh
+fn_helm_deploy
