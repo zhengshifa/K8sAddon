@@ -1,6 +1,6 @@
 # mysql-cluster
 
-install="yes"
+helm_install="yes"
 namespace="mysql-cluster"
 chart_ver="1.15.0"
 release_name="mysql-cluster"
