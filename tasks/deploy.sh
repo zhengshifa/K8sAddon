@@ -27,13 +27,13 @@ fn_helm_deploy() {
                 helm upgrade ${release_name} --install --create-namespace \
                 -n ${namespace} -f ${base_dir}/templates/${filename}/values.yaml \
                 ${base_dir}/files/${filename}-${chart_ver}.tgz
-                fn_log_info "helm安装 ${release_name} 成功"
+                [ $? == 0 ] || fn_log_error "helm安装 ${release_name} 失败" ; continue
             elif [  "$install" == 'no' ];then
                 # 删除app
                 helm uninstall ${release_name} -n ${namespace}
-                fn_log_info "helm删除 ${release_name} 成功"
+                [ $? == 0 ] || fn_log_info "helm删除 ${release_name} 失败" ; continue
             else
-                fn_log_error "$file 变量install参数值未设置正确"
+                fn_log_error "$file 变量install参数值未设置正确" ; continue
             fi
             sleep 1
         )
