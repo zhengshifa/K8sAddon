@@ -37,11 +37,11 @@ fn_helm_deploy() {
         # helm部署app
         helm upgrade ${release_name} --install --create-namespace \
         -n ${namespace} -f ${base_dir}/templates/${filename}/values.yaml \
-        ${base_dir}/files/${filename}-${chart_ver}.tgz
+        ${base_dir}/files/${filename}-${chart_ver}.tgz $>/dev/null
         [ $? == 0 ] || fn_log_error "helm安装 ${release_name} 失败" ; continue
     elif [  "$helm_install" == 'no' ];then
         # 删除app
-        helm uninstall ${release_name} -n ${namespace}
+        helm uninstall ${release_name} -n ${namespace} $>/dev/null
         [ $? == 0 ] || fn_log_error "helm删除 ${release_name} 失败" ; continue
     else
         fn_log_error "$file 变量helm_install参数值未设置正确" ; continue
