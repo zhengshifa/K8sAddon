@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: rocketmq-test
-  namespace: "${namespace }}"
+  namespace: "${namespace}"
 spec:
   concurrencyPolicy: Allow
   failedJobsHistoryLimit: 0
@@ -66,6 +66,6 @@ spec:
           restartPolicy: OnFailure
           schedulerName: default-scheduler
           terminationGracePeriodSeconds: 30
-  schedule: "${services_test_schedule }}"
+  schedule: "${services_test_schedule}"
   successfulJobsHistoryLimit: 1
   suspend: false
