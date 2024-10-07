@@ -5,8 +5,8 @@ base_dir=/etc/k8s-addon
 
 # 日志模块
 fn_log_info()  { TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S'); echo -e "$TIMESTAMP \033[32mINFO\033[0m $1"; }
-fn_log_warn()  { TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S'); echo -e "$TIMESTAMP \033[33mWARN\033[0m $2"; }
-fn_log_error() { TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S'); echo -e "$TIMESTAMP \033[31mERROR\033[0m $2"; }
+fn_log_warn()  { TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S'); echo -e "$TIMESTAMP \033[33mWARN\033[0m $1"; }
+fn_log_error() { TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S'); echo -e "$TIMESTAMP \033[31mERROR\033[0m $1"; }
 
 
 # j2模板文件渲染

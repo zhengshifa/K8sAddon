@@ -17,29 +17,26 @@ Operator	MySQL	    Percona XtraBackup	        HA	        proxySQL
 
 ### 方式一
 #部署操作员
-kubectl create -n mysql-op
-kubectl apply -f ../manifests/mysql-operator/manifests/mysql-operator-crd.yml -n mysql-op
-
+`kubectl create -n mysql-op`
+`kubectl apply -f ../manifests/mysql-operator/manifests/mysql-operator-crd.yml -n mysql-op`
 #部署 Percona XtraDB 集群
-kubectl apply -f ../manifests/mysql-operator/manifests/cr.yaml -n <namespace>
+`kubectl apply -f ../manifests/mysql-operator/manifests/cr.yaml -n <namespace>`
 注:原yaml请查看 https://raw.githubusercontent.com/percona/percona-xtradb-cluster-operator/v1.14.0/deploy/cr.yaml
 注:更多集群自定义参数请查看 https://docs.percona.com/percona-operator-for-mysql/pxc/operator.html
 
 #检查 Operator 和 Percona XtraDB 集群 Pod 状态
-kubectl get pxc -n <namespace>
+`kubectl get pxc -n <namespace>`
 
 ### 方式二
-- 参考[安装插件到指定集群](../guide/cluster-addon.md)
+- 参考[安装插件到指定集群](../k8s-addon.md)
 
 
 ## 连接到 Percona XtraDB 集群中的 MySQL 实例
 
 #列出 Secrets 对象
-kubectl get secrets -n <namespace>
-
+`kubectl get secrets -n <namespace>`
 #检索 root 用户的密码
-kubectl get secret <secret-name> -n <namespace> --template='{{.data.root | base64decode}}{{"\n"}}'
-
+`kubectl get secret <secret-name> -n <namespace> --template='{{.data.root | base64decode}}{{"\n"}}'`
 #连接到您的终端
 kubectl run -n <namespace> -i --rm --tty percona-client --image=percona:8.0 --restart=Never -- bash -il
 $ mysql -h <cluster_name>-haproxy -uroot -p'<root_password>'   (haproxy)
@@ -101,13 +98,13 @@ backup.pitr.storageName 键应指向已存在的存储名称
 ## 还原到新的k8s集群
 
 #获取备份
-kubectl get pxc-backup
+`kubectl get pxc-backup`
 
 #获取mysql集群
-kubectl get pxc
+`kubectl get pxc`
 
 #执行还原(修改相应参数后执行)
-kubectl apply -f ../manifests/mysql-operator/manifests/restore.yaml
+`kubectl apply -f ../manifests/mysql-operator/manifests/restore.yaml`
 
 ## 二进制日志还原到指定时间节点
 

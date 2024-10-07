@@ -83,7 +83,7 @@ spec:
       serviceAccountName: local-path-provisioner-service-account
       containers:
         - name: local-path-provisioner
-          image: ${registry}/${repository}/${imagr}:${tag}
+          image: ${registry}/${repository}/${image}:${tag}
           imagePullPolicy: IfNotPresent
           command:
             - local-path-provisioner

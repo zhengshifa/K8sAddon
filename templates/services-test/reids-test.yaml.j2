@@ -6,7 +6,7 @@ metadata:
     job: network-check
     name: reids-test
   name: reids-test
-  namespace: "{{ services_test_install_namespace }}"
+  namespace: "${namespace }}"
 spec:
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 0
@@ -32,6 +32,6 @@ spec:
           restartPolicy: OnFailure
           schedulerName: default-scheduler
           terminationGracePeriodSeconds: 30
-  schedule: "{{ services_test_schedule }}"
+  schedule: "${services_test_schedule }}"
   successfulJobsHistoryLimit: 1
   suspend: false

@@ -1,0 +1,12 @@
+# nfs-storage
+# ${registry}/${repository}/${image}:${tag}
+
+yaml_install="yes"
+namespace="kube-system"
+registry='easzlab.io.local:5000'
+repository='easzlab'
+image='nfs-subdir-external-provisioner'
+tag='v4.0.1'
+nfs_server="192.168.100.1"
+nfs_path="/opt/nfs-storage"
+nfs_storage_class="nfs-storage"
