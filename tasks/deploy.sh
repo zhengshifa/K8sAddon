@@ -15,6 +15,8 @@ fn_deploy() {
     for file in "$base_dir"/vars/*; do
         [ -e "$file" ] || fn_log_error "$file 配置文件不存在"  # 检查文件是否存在
         filename=$(basename "$file") # 获取变量的文件名
+        (
+        echo -e "\033[35m正在执行 $filename 相关操作...\033[0m"
         . $file # 加载变量文件
         shopt -s nocasematch  # 开启不区分大小写
 
@@ -25,7 +27,8 @@ fn_deploy() {
         else
             fn_log_warn " $file  无需安装/更新  或者 实例请配置正确的 helm_upgrade/helm_install/yaml_install 参数"
         fi
-
+        echo -e "\n"
+        )
         sleep 1
     done
 }
@@ -56,13 +59,10 @@ fn_helm_install() {
     elif [  "$helm_install" == 'no' ];then
         # 删除app
         helm uninstall ${release_name} -n ${namespace} &>/dev/null
-        if [ $? -eq 0 ]; then
-            fn_log_info "${filename} 使用 Helm 删除成功,release 名字为 ${release_name}"
-        else
-            fn_log_error "${filename} 使用 Helm 删除失败,release 名字为 ${release_name}"
-        fi
+        fn_log_info "${filename} 使用helm删除成功 release名字为 ${release_name}"
+
     else
-        fn_log_error "$file 变量install参数值未设置正确" ; continue
+        fn_log_error "$file 变量install参数值未设置正确"
     fi
 }
 
@@ -74,13 +74,13 @@ fn_yaml_deploy() {
         fn_j2_to_files  # 模板文件渲染
         # yaml部署app
         kubectl apply -f ${base_dir}/templates/${filename}/  &>/dev/null
-        [ $? == 0 ] && fn_log_info "yaml 部署 ${filename}资源成功" || fn_log_error "安装 ${release_name} yaml资源 失败" ; continue
+        [ $? == 0 ] && fn_log_info "yaml 部署 ${filename}资源成功" || fn_log_error "安装 ${filename} yaml资源 失败"
     elif [  "$yaml_install" == 'no' ];then
         # 删除app
         kubectl delete -f ${base_dir}/templates/${filename}/  &>/dev/null
-        [ $? == 0 ] && fn_log_info "yaml 删除 ${filename}资源成功" || fn_log_error "删除 ${release_name} yaml资源 失败" ; continue
+        fn_log_info "yaml 删除 ${filename}资源成功" 
     else
-        fn_log_error "$file 变量yaml_install参数值未设置正确" ; continue
+        fn_log_error "$file 变量yaml_install参数值未设置正确" 
     fi
 }
 
