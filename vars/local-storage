@@ -1,6 +1,6 @@
 # local-storage
 
-yaml_install="yes"
+yaml_install="no"
 local_path_provisioner_dir="/opt/local-path-provisioner"
 registry='chinamobile.com'
 repository='zsf'

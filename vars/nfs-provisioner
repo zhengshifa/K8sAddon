@@ -1,7 +1,7 @@
 # nfs-storage
 # ${registry}/${repository}/${image}:${tag}
 
-yaml_install="yes"
+yaml_install="no"
 namespace="kube-system"
 registry='easzlab.io.local:5000'
 repository='easzlab'

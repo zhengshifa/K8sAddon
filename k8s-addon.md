@@ -18,4 +18,5 @@
 ## 安装插件到指定集群
 配置vars/xxx文件,instarll="yes"
 
-##
+## 原地升级 待补充学习
+OpenKruise

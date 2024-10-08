@@ -1,6 +1,12 @@
 # helm-dashboard
 
+## helm_install值可以是yes(安装)/no(卸载),no优先级比helm_upgrade高
 helm_install="yes"
+## 更新helm
+helm_upgrade=""
+
+
 namespace="kube-system"
 chart_ver="0.1.10"
 release_name="helm-dashboard"
+storage_class="storage-nfs"

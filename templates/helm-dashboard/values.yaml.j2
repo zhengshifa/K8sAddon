@@ -43,7 +43,7 @@ dashboard:
     ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
     ##   GKE, AWS & OpenStack)
     ##
-    storageClass: storage-nfs
+    storageClass: ${storage_class}
 
     ## Helm Dashboard Persistent Volume access modes
     ## Must match those of existing PV or dynamic provisioner
@@ -91,7 +91,6 @@ securityContext: {}
 service:
   type: NodePort
   port: 8080
-  nodePort: 30765
 
 ingress:
   enabled: false
