@@ -1,4 +1,4 @@
-name: backup to Remote Host
+name: k8s addon
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: backup to Remote Host
+      - name: deploy
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         with:
           host: ${{ secrets.DEPLOY_HOST }}

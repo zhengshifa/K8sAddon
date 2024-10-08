@@ -27,7 +27,8 @@ fn_deploy() {
         else
             fn_log_warn " $file  无需安装/更新  或者 实例请配置正确的 helm_upgrade/helm_install/yaml_install 参数"
         fi
-        echo -e "\n"
+        echo -e "\033[35m$filename 处理完成\033[0m"
+
         )
         sleep 1
     done
