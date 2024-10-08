@@ -1,5 +1,4 @@
 # service-test
-# ${registry}/${repository}/${image}:${tag}
 
 yaml_install="yes"
 namespace="kube-system"

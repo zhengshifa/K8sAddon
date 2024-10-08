@@ -15,7 +15,6 @@ fn_j2_to_files() {
     for values in ${base_dir}/templates/${filename}/*.j2; do
         set -a
         . vars/${filename}
-        set +a
         #configContent=$(cat ${base_dir}/vars/${filename})
         #yamlTemplate=$(cat ${values})
         #printf "$configContent\ncat << EOF\n${yamlTemplate}\nEOF" |bash > ${values%.*}

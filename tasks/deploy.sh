@@ -4,7 +4,7 @@
 
 set -a  #加载到环境变量,下面的命令
 #加载公共模块
-. ${base_dir}/tasks/lib.sh
+. tasks/lib.sh
 
 main() {
     fn_deploy
@@ -56,8 +56,11 @@ fn_helm_install() {
     elif [  "$helm_install" == 'no' ];then
         # 删除app
         helm uninstall ${release_name} -n ${namespace} &>/dev/null
-        [ $? == 0 ] && fn_log_info "${filename} 使用helm删除成功 release名字为 ${release_name}" || fn_log_error "${filename} 使用helm删除失败 release名字为 ${release_name}" 
-
+        if [ $? -eq 0 ]; then
+            fn_log_info "${filename} 使用 Helm 删除成功,release 名字为 ${release_name}"
+        else
+            fn_log_error "${filename} 使用 Helm 删除失败,release 名字为 ${release_name}"
+        fi
     else
         fn_log_error "$file 变量install参数值未设置正确" ; continue
     fi
