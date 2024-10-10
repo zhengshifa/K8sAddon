@@ -22,4 +22,7 @@
 [https://openkruise.io/zh/docs/](https://openkruise.io/zh/docs/)
 OpenKruise
 
-test
+git config --global http.version HTTP/1.1
+
+git config --global http.proxy 'socks5h://zhengshifa:zhengshifa@117.72.66.1:6080'
+git config --global https.proxy 'socks5h://zhengshifa:zhengshifa@117.72.66.1:6080'
