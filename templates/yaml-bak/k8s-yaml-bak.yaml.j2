@@ -23,7 +23,7 @@ spec:
               imagePullPolicy: IfNotPresent
               args:
               - "--git-url"
-              - ${yaml_bak_git_url}
+              - "${yaml_bak_git_url}"
               - "--local-dir"
               - "/tmp/prod-clusterdump/"
               - "--exclude-having-owner-ref"
@@ -40,7 +40,7 @@ spec:
           restartPolicy: OnFailure
           schedulerName: default-scheduler
           terminationGracePeriodSeconds: 30
-  schedule: ${schedule}
+  schedule: "${schedule}"
   successfulJobsHistoryLimit: 1
   suspend: false
 ---
