@@ -1,6 +1,6 @@
 # service-test
 
-yaml_install="yes"
+yaml_install="no"
 namespace="kube-system"
 services_test_schedule="*/5 * * * *"
 registry='easzlab.io.local:5000'

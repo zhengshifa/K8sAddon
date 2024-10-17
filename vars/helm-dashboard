@@ -1,8 +1,8 @@
 # helm-dashboard
 
-## helm_install值可以是yes(安装)/no(卸载),no优先级比helm_upgrade高
-helm_install="yes"
-## 更新helm
+## helm_install值可以是yes(安装)/no(卸载),null为无任何动作
+helm_install=""
+## 更新helmy  (yes)
 helm_upgrade=""
 
 
