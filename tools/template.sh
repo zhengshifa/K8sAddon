@@ -12,12 +12,23 @@ for file in "$base_dir"/vars/*; do
             j2filename=$(basename "$values")
             set -a
             . "${base_dir}/vars/${filename}"  # 加上 base_dir
-            envsubst < "${values}" > "${base_dir}/yaml/${j2filename%.*}"  # 修改输出路径
+
+            if [ ! -d "${base_dir}/manifests/${filename}" ];then
+                mkdir ${base_dir}/manifests/${filename}
+            fi
+
+            envsubst < "${values}" > "${base_dir}/manifests/${filename}/${j2filename%.*}"  # 修改输出路径
+
             if [ $? -eq 0 ]; then
-                echo "渲染成功,生成文件 ${base_dir}/yaml/${j2filename%.*}"
+                echo "渲染成功,生成文件 ${base_dir}/manifests/${filename}/${j2filename%.*}"
             else
                 echo "渲染失败"
             fi
+            
+            if [ -f ${base_dir}/manifests/${filename}/values.yaml ];then
+                helm template  ${base_dir}/files/${filename}-${chart_ver}.tgz  --output-dir  ${base_dir}/manifests
+            fi     
+sleep 3
         )
     done
 done

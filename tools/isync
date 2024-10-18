@@ -1,6 +1,6 @@
 #!/bin/bash
 
-### 功能:渲染helm tgz文件里面的原始镜像然后同步到本地仓库 ### sh isync xxx.tgz yyy.tgz or  sh isync 
+### 功能:渲染helm tgz文件里面的原始镜像然后同步到本地仓库 ### sh isync xxx.tgz yyy.tgz  OR  sh isync 
 
 main() {
     install_image_syncer
