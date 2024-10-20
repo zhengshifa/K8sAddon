@@ -83,7 +83,7 @@ spec:
       serviceAccountName: local-path-provisioner-service-account
       containers:
         - name: local-path-provisioner
-          image: chinamobile.com/zsf/local-path-provisioner:v0.0.27
+          image: chinamobile.com/zsf/local-path-provisioner:v0.0.25
           imagePullPolicy: IfNotPresent
           command:
             - local-path-provisioner
@@ -150,5 +150,5 @@ data:
           effect: NoSchedule
       containers:
       - name: helper-pod
-        image: chinamobile.com/zsf/local-path-provisioner:v0.0.27
+        image: chinamobile.com/zsf/local-path-provisioner:v0.0.25
         imagePullPolicy: IfNotPresent
