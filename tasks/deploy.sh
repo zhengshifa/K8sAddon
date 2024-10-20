@@ -17,6 +17,7 @@ fn_deploy() {
         for file in "$base_dir"/vars/$env_var/*; do
             [ -e "$file" ] || fn_log_error "$file 配置文件不存在"  # 检查文件是否存在
             filename=$(basename "$file") # 获取变量的文件名
+            manifests_dir=${base_dir}/manifests/${env_var}/${filename}
             (  # (xx) 隔离变量
             echo -e "\033[35m 正在执行 环境:$env_var 中 $filename 相关操作...\033[0m"
             . $file # 加载变量文件
@@ -49,12 +50,12 @@ fn_helm_install() {
         # helm部署app
         if [ "$helm_upgrade" == 'yes' ];then
             helm upgrade ${release_name} --install --create-namespace \
-            -n ${namespace} -f ${base_dir}/templates/${filename}/values-${env_var}.yaml \
+            -n ${namespace} -f ${manifests_dir}/values.yaml \
             ${base_dir}/files/${filename}-${chart_ver}.tgz &>/dev/null
             [ $? == 0 ] && fn_log_info "${filename} 使用helm更新成功 release名字为 ${release_name}" || fn_log_error "helm更新 ${release_name} 失败"
         elif ! helm status ${release_name} -n ${namespace} &>/dev/null ;then
             helm install ${release_name} --install --create-namespace \
-            -n ${namespace} -f ${base_dir}/templates/${filename}/values-${env_var}.yaml \
+            -n ${namespace} -f ${manifests_dir}/values.yaml \
             ${base_dir}/files/${filename}-${chart_ver}.tgz &>/dev/null
             helm status ${release_name} -n ${namespace} &>/dev/null
             [ $? == 0 ] && fn_log_info "${filename} 使用helm安装成功 release名字为 ${release_name}" || fn_log_error "helm安装 ${release_name} 失败"
@@ -79,11 +80,11 @@ fn_yaml_deploy() {
     if [ "$yaml_install" == 'yes' ];then
         fn_j2_to_files  # 模板文件渲染
         # yaml部署app
-        kubectl apply -f ${base_dir}/templates/${filename}/*${env_var}.yaml  &>/dev/null
+        kubectl apply -f ${manifests_dir}  &>/dev/null
         [ $? == 0 ] && fn_log_info "yaml 部署 ${filename}资源成功" || fn_log_error "安装 ${filename} yaml资源 失败"
     elif [ "$yaml_install" == 'no' ];then
         # 删除app
-        kubectl delete -f ${base_dir}/templates/${filename}/  &>/dev/null
+        kubectl delete -f ${manifests_dir}/  &>/dev/null
         fn_log_info "yaml 删除 ${filename}资源成功" 
     else
         fn_log_error "$file 变量yaml_install参数值未设置正确" 

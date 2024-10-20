@@ -22,11 +22,11 @@ jobs:
           port: ${{ secrets.DC_PORT }}
           connect_timeout: 60s
           first_ssh: |-
-            rm -rf /etc/k8s-addon/*
-            mkdir -p /etc/k8s-addon/
+            rm -rf /etc/K8sAddon/*
+            mkdir -p /etc/K8sAddon/
           scp: |-
-            './*' => /etc/k8s-addon/
+            './*' => /etc/K8sAddon/
           last_ssh: |-
-            chmod +x /etc/k8s-addon/tasks/*.sh
-            cd /etc/k8s-addon/
+            chmod +x /etc/K8sAddon/tasks/*.sh
+            cd /etc/K8sAddon/
             sh tasks/deploy.sh

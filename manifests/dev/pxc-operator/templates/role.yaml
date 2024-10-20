@@ -1,0 +1,126 @@
+---
+# Source: pxc-operator/templates/role.yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: release-name-pxc-operator
+  namespace: default
+  labels:
+    app.kubernetes.io/name: pxc-operator
+    helm.sh/chart: pxc-operator-1.15.0
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/managed-by: Helm
+rules:
+- apiGroups:
+  - pxc.percona.com
+  resources:
+  - perconaxtradbclusters
+  - perconaxtradbclusters/status
+  - perconaxtradbclusterbackups
+  - perconaxtradbclusterbackups/status
+  - perconaxtradbclusterrestores
+  - perconaxtradbclusterrestores/status
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/exec
+  - pods/log
+  - configmaps
+  - services
+  - persistentvolumeclaims
+  - secrets
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - replicasets
+  - statefulsets
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  - cronjobs
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - events.k8s.io
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+  - get
+  - list
+  - watch
+- apiGroups:
+  - certmanager.k8s.io
+  - cert-manager.io
+  resources:
+  - issuers
+  - certificates
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+  - deletecollection
