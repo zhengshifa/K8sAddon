@@ -1,0 +1,12 @@
+# helm-dashboard
+
+## helm_install值可以是yes(安装)/no(卸载),null为无任何动作
+helm_install=""
+## 更新helmy  (yes)
+helm_upgrade=""
+
+
+namespace="kube-system"
+chart_ver="0.1.10"
+release_name="helm-dashboard"
+storage_class="storage-nfs"

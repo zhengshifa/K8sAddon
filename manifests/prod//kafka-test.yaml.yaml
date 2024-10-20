@@ -1,0 +1,69 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: kafka-test
+  namespace: ""
+spec:
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 0
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          containers:
+          - name: kafka-test-container
+            image: confluentinc/cp-kafka:latest
+            command:
+            - /bin/bash
+            - -c
+            - |
+              #!/bin/bash
+              # 设置 Kafka 地址
+              KAFKA_ADDR="kafka-broker.kafka.svc.cluster.local:9092"
+              # 设置 Topic 名称
+              TOPIC="TestTopic"
+              # 创建 Topic
+              kafka-topics --create --topic  --partitions 1 --replication-factor 1 --zookeeper zookeeper:2181
+              # 检查创建 Topic 是否成功
+              if [ $? -eq 0 ]; then
+                echo "Topic  created successfully"
+              else
+                echo "Failed to create topic "
+                exit 1
+              fi
+              # 发送消息
+              echo "Hello, Kafka" | kafka-console-producer --broker-list  --topic  &
+              sleep 5
+              # 消费消息
+              kafka-console-consumer --bootstrap-server  --topic  --from-beginning | grep "Hello, Kafka"
+              # 检查消费是否成功
+              if [ $? -eq 0 ]; then
+                echo "Messages consumed successfully"
+              else
+                echo "Failed to consume messages"
+                exit 1
+              fi
+              # 等待一段时间，确保消息被成功发送和消费
+              sleep 5
+              # 删除 Topic
+              kafka-topics --delete --topic  --zookeeper zookeeper:2181
+              # 检查删除 Topic 是否成功
+              if [ $? -eq 0 ]; then
+                echo "Topic  deleted successfully"
+              else
+                echo "Failed to delete topic "
+                exit 1
+              fi
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: OnFailure
+          schedulerName: default-scheduler
+          terminationGracePeriodSeconds: 30
+  schedule: ""
+  successfulJobsHistoryLimit: 1
+  suspend: false

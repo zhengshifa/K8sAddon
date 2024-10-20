@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    grp: ops-tasks
+    job: network-check
+    name: mysql-test
+  name: mysql-test
+  namespace: ""
+spec:
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 0
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          containers:
+          - command:
+            - sh
+            - -c
+            - mysql -h10.248.202.116  -P3306 -udb-prod-ptp  -p'ptp123!@#QWE' -e "select
+              @@version;"
+            image: chinamobile.com/zsf/mysql-client:latest
+            imagePullPolicy: IfNotPresent
+            name: mysql-test
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: OnFailure
+          schedulerName: default-scheduler
+          terminationGracePeriodSeconds: 30
+  schedule: ""
+  successfulJobsHistoryLimit: 1
+  suspend: false
