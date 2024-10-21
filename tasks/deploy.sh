@@ -12,7 +12,7 @@ main() {
 
 fn_deploy() {
 
-    for env_var in `cat "$base_dir"/vars/global_vars` ;do
+    for env_var in $(grep -v '^#' "$base_dir"/vars/global_vars | grep -v '^\s*$'); do
 
         for file in "$base_dir"/vars/$env_var/*; do
             [ -e "$file" ] || fn_log_error "$file 配置文件不存在"  # 检查文件是否存在

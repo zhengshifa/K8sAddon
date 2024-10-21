@@ -1,0 +1,27 @@
+---
+# Source: pxc-operator/templates/role-binding.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: release-name-pxc-operator
+  namespace: default
+---
+# Source: pxc-operator/templates/role-binding.yaml
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: release-name-pxc-operator
+  namespace: default
+  labels:
+    app.kubernetes.io/name: pxc-operator
+    helm.sh/chart: pxc-operator-1.15.0
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/managed-by: Helm
+subjects:
+- kind: ServiceAccount
+  name: release-name-pxc-operator
+roleRef:
+  kind: Role
+  name: release-name-pxc-operator
+  apiGroup: rbac.authorization.k8s.io
