@@ -15,7 +15,7 @@ fn_j2_to_files() {
 
     for values in ${base_dir}/templates/${filename}/*.j2; do
         set -a
-        . ../vars/${env_var}/${filename}
+        . ${base_dir}/vars/${env_var}/${filename}
         j2_name=$(basename "$values")
        # envsubst < ${values} > ${values%%.*}-${env_var}.yaml
         manifests_dir=${base_dir}/manifests/${env_var}/${filename}
