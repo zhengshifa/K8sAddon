@@ -14,17 +14,23 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: volume-test
+  name: local-path-volume-test
 spec:
   containers:
   - name: volume-test
     image: nginx:stable-alpine
     imagePullPolicy: IfNotPresent
+    command:
+      - "/bin/sh"
+    args:
+      - "-c"
+      - "touch /data/SUCCESS && exit 0 || exit 1"
     volumeMounts:
     - name: volv
       mountPath: /data
     ports:
     - containerPort: 80
+  restartPolicy: "Never"
   volumes:
   - name: volv
     persistentVolumeClaim:
