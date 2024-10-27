@@ -133,11 +133,11 @@ data:
   setup: |-
     #!/bin/sh
     set -eu
-    mkdir -m 0777 -p ""
+    mkdir -m 0777 -p "/opt/local-path-provisioner"
   teardown: |-
     #!/bin/sh
     set -eu
-    rm -rf ""
+    rm -rf "$VOL_DIR"
   helperPod.yaml: |-
     apiVersion: v1
     kind: Pod
