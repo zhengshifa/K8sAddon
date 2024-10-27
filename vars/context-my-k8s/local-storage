@@ -1,0 +1,8 @@
+# local-storage
+
+yaml_install="yes"
+local_path_provisioner_dir="/opt/local-path-provisioner"
+registry='docker.io'
+repository='rancher'
+image='local-path-provisioner'
+tag='v0.0.25'

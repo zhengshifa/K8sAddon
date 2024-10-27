@@ -1,0 +1,4 @@
+# network-check
+
+yaml_install="no" 
+network_check_schedule="*/5 * * * *"

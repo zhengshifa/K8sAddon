@@ -14,6 +14,9 @@ fn_deploy() {
 
     for env_var in $(grep -v '^#' "$base_dir"/vars/global_vars | grep -v '^\s*$'); do
 
+        # 环境切换
+        kubectx "$env_var"
+
         for file in "$base_dir"/vars/$env_var/*; do
             [ -e "$file" ] || fn_log_error "$file 配置文件不存在"  # 检查文件是否存在
             filename=$(basename "$file") # 获取变量的文件名
@@ -22,6 +25,7 @@ fn_deploy() {
             echo -e "\033[35m 正在执行 环境:$env_var 中 $filename 相关操作...\033[0m"
             . $file # 加载变量文件
             shopt -s nocasematch  # 开启不区分大小写
+
 
             if [ -n "$helm_install" ];then
                 fn_helm_install
