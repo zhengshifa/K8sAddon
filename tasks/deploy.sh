@@ -58,7 +58,7 @@ fn_helm_install() {
             ${base_dir}/files/${filename}-${chart_ver}.tgz &>/dev/null
             [ $? == 0 ] && fn_log_info "${filename} 使用helm更新成功 release名字为 ${release_name}" || fn_log_error "helm更新 ${release_name} 失败"
         elif ! helm status ${release_name} -n ${namespace} &>/dev/null ;then
-            helm install ${release_name} --install --create-namespace \
+            helm install ${release_name} --create-namespace \
             -n ${namespace} -f ${manifests_dir}/values.yaml \
             ${base_dir}/files/${filename}-${chart_ver}.tgz &>/dev/null
             helm status ${release_name} -n ${namespace} &>/dev/null
