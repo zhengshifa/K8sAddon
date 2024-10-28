@@ -1,0 +1,27 @@
+---
+# Source: istiod/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: istio
+  namespace: default
+  labels:
+    istio.io/rev: "default"
+    install.operator.istio.io/owning-resource: unknown
+    operator.istio.io/component: "Pilot"
+    release: release-name
+data:
+
+  # Configuration file for the mesh networks to be used by the Split Horizon EDS.
+  meshNetworks: |-
+    networks: {}
+
+  mesh: |-
+    defaultConfig:
+      discoveryAddress: istiod.default.svc:15012
+    defaultProviders:
+      metrics:
+      - prometheus
+    enablePrometheusMerge: true
+    rootNamespace: istio-system
+    trustDomain: cluster.local

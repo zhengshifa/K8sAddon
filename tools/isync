@@ -85,8 +85,8 @@ create_repo() {
 install_image_syncer() {
 if ! command -v image-syncer >/dev/null 2>&1; then
     echo "正在下载同步工具image-syncer"
-    #export https_proxy='10.248.68.185:3128'
-    #export http_proxy='10.248.68.185:3128'
+    #export https_proxy='xxx.xxx.68.185:3128'
+    #export http_proxy='xxx.xxx.68.185:3128'
     wget -O - https://gh.con.sh/https://github.com/AliyunContainerService/image-syncer/releases/download/v1.5.5/image-syncer-v1.5.5-linux-amd64.tar.gz | sudo tar -xzf - -C /bin/ 
     chmod +x /bin/image-syncer
 fi

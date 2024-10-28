@@ -22,7 +22,7 @@ spec:
           - command:
             - sh
             - -c
-            - mysql -h10.248.202.116  -P3306 -udb-prod-ptp  -p'ptp123!@#QWE' -e "select
+            - mysql -hxxx.xxx.202.116  -P3306 -udb-prod-ptp  -p'ptp123!@#QWE' -e "select
               @@version;"
             image: chinamobile.com/zsf/mysql-client:latest
             imagePullPolicy: IfNotPresent

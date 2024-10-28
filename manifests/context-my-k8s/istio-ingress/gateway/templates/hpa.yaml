@@ -1,0 +1,30 @@
+---
+# Source: gateway/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: release-name
+  namespace: default
+  labels:
+    helm.sh/chart: gateway-1.23.2
+    app: release-name
+    istio: release-name
+    app.kubernetes.io/name: release-name
+    app.kubernetes.io/version: "1.23.2"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    {}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: release-name
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          averageUtilization: 80
+          type: Utilization

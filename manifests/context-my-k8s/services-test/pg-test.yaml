@@ -27,7 +27,7 @@ spec:
                 echo "  域名 successfully"
               else
                 echo "  域名 ERROE"
-                /usr/bin/psql -h 10.248.203.171  -U dbadmin  -d postgres -p 17700 -c "SELECT version();"
+                /usr/bin/psql -h xxx.xxx.203.171  -U dbadmin  -d postgres -p 17700 -c "SELECT version();"
                 if [ $? -eq 0 ]; then
                   echo "  VIP successfully"
                 else

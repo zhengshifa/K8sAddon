@@ -7,4 +7,4 @@ registry='chinamobile.com'
 repository='zsf'
 image='katafygio'
 tag='latest'
-yaml_bak_git_url="http://zhengshifa:FKzu5v6mM21jUc9NaqZJ@10.248.68.29:8099/pangzhisheng/k8s-test-dump.git"
+yaml_bak_git_url="http://zhengshifa:FKzu5v6mM21jUc9NaqZJ@xxx.xxx.68.29:8099/pangzhisheng/k8s-test-dump.git"
