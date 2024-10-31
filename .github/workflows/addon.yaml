@@ -3,8 +3,8 @@ name: k8s addon
 on:
   push:
     branches:
-      - main  # 根据需要调整分支名称
-  workflow_dispatch:  # 添加手动触发
+      - main  # Adjust branch name as needed
+  workflow_dispatch:  # Enable manual trigger
 
 jobs:
   backup:
@@ -13,7 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: deploy
+      - name: Compress files for transfer
+        run: tar -czf k8s_addon.tar.gz files tasks templates tools vars
+
+      - name: Deploy to remote server
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         with:
           host: ${{ secrets.DEPLOY_HOST }}
@@ -22,16 +25,14 @@ jobs:
           port: ${{ secrets.DC_PORT }}
           connect_timeout: 60s
           first_ssh: |-
-            rm -rf ~/.K8sAddon/*
+            rm -rf ~/.K8sAddon/
             mkdir -p ~/.K8sAddon/
           scp: |-
-            './files' => ~/.K8sAddon/
-            './tasks' => ~/.K8sAddon/
-            './templates' => ~/.K8sAddon/
-            './tools' => ~/.K8sAddon/
-            './vars' => ~/.K8sAddon/
+            './k8s_addon.tar.gz' => ~/.K8sAddon/
           last_ssh: |-
-            chmod +x ~/.K8sAddon/tasks/*
-            chmod +x ~/.K8sAddon/tools/*
             cd ~/.K8sAddon/
+            tar -xzf k8s_addon.tar.gz
+            chmod +x tasks/*
+            chmod +x tools/*
             sh tasks/deploy.sh
+            rm -rf k8s_addon.tar.gz
