@@ -8,6 +8,6 @@ registry='gcr.io'
 repository='k8s-staging-sig-storage'
 image='nfs-subdir-external-provisioner'
 tag='v4.0.1'
-nfs_server="192.168.10.202"
+nfs_server="192.168.137.11"
 nfs_path="/opt/nfs-storage"
 nfs_storage_class="nfs-storage"

@@ -19,7 +19,7 @@ spec:
           serviceAccountName: k8s-yaml-bak-sa
           containers:
             - name: k8s-yaml-bak
-              image: chinamobile.com/zsf/katafygio:latest
+              image: xxx.com/zsf/katafygio:latest
               imagePullPolicy: IfNotPresent
               args:
               - "--git-url"

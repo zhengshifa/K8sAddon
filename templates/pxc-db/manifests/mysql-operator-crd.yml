@@ -10637,7 +10637,7 @@ spec:
           value: percona-xtradb-cluster-operator
         - name: DISABLE_TELEMETRY
           value: "false"
-        image: chinamobile.com/zsf/percona-xtradb-cluster-operator:1.14.0
+        image: xxx.com/zsf/percona-xtradb-cluster-operator:1.14.0
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3

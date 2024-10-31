@@ -15,7 +15,7 @@ spec:
     schedule: "0 4 * * *"
   pxc:
     size: 3
-    image: chinamobile.com/zsf/percona-xtradb-cluster:8.0.35-27.1
+    image: xxx.com/zsf/percona-xtradb-cluster:8.0.35-27.1
     autoRecovery: true
     resources:
       requests:
@@ -36,7 +36,7 @@ spec:
   haproxy:
     enabled: true
     size: 3
-    image: chinamobile.com/zsf/percona-xtradb-cluster-operator:1.14.0-haproxy
+    image: xxx.com/zsf/percona-xtradb-cluster-operator:1.14.0-haproxy
     resources:
       requests:
         memory: 1G
@@ -49,7 +49,7 @@ spec:
   proxysql:
     enabled: false
     size: 3
-    image: chinamobile.com/zsf/percona-xtradb-cluster-operator:1.14.0-proxysql
+    image: xxx.com/zsf/percona-xtradb-cluster-operator:1.14.0-proxysql
     resources:
       requests:
         memory: 1G
@@ -68,21 +68,21 @@ spec:
     gracePeriod: 30
   logcollector:
     enabled: true
-    image: chinamobile.com/zsf/percona-xtradb-cluster-operator:1.14.0-logcollector
+    image: xxx.com/zsf/percona-xtradb-cluster-operator:1.14.0-logcollector
     resources:
       requests:
         memory: 100M
         cpu: 200m
   pmm:
     enabled: false
-    image: chinamobile.com/zsf/pmm-client:2.41.1
+    image: xxx.com/zsf/pmm-client:2.41.1
     serverHost: monitoring-service
     resources:
       requests:
         memory: 150M
         cpu: 300m
   backup:
-    image: chinamobile.com/zsf/percona-xtradb-cluster-operator:1.14.0-pxc8.0-backup-pxb8.0.35
+    image: xxx.com/zsf/percona-xtradb-cluster-operator:1.14.0-pxc8.0-backup-pxb8.0.35
     pitr:
       enabled: false
       storageName: STORAGE-NAME-HERE

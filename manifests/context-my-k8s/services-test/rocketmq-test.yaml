@@ -57,7 +57,7 @@ spec:
             command:
             - /bin/bash
             - -c
-            image: chinamobile.com/devops-tool/rocketmq-4.9.2:v1
+            image: xxx.com/devops-tool/rocketmq-4.9.2:v1
             imagePullPolicy: IfNotPresent
             name: rocketmq-test-container
             terminationMessagePath: /dev/termination-log

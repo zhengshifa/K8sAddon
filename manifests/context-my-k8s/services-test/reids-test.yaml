@@ -23,7 +23,7 @@ spec:
             - sh
             - -c
             - redis-cli -h redis-service.ptp-prod.svc  -p 6379 -a 'Ctc1qa2ws!@2020%778!#'  ping
-            image: chinamobile.com/zsf/redis:latest
+            image: xxx.com/zsf/redis:latest
             imagePullPolicy: IfNotPresent
             name: reids-test
             terminationMessagePath: /dev/termination-log

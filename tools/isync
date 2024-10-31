@@ -8,7 +8,7 @@ main() {
 }
 
 ##配置变量
-local_registry='chinamobile.com'
+local_registry='xxx.com'
 default_tag='latest'
 default_repository='library'
 harbor_user=admin
