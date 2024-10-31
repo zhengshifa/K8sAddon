@@ -23,7 +23,7 @@ spec:
               imagePullPolicy: IfNotPresent
               args:
               - "--git-url"
-              - "http://zhengshifa:FKzu5v6mM21jUc9NaqZJ@xxx.xxx.68.29:8099/pangzhisheng/k8s-test-dump.git"
+              - "http://zhengshifa:FKzu5v6mM21jUc9NaqZJ@xxx.xxx.68.29:8099/xxx/k8s-test-dump.git"
               - "--local-dir"
               - "/tmp/prod-clusterdump/"
               - "--exclude-having-owner-ref"
