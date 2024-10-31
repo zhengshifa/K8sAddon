@@ -25,8 +25,13 @@ jobs:
             rm -rf ~/.K8sAddon/*
             mkdir -p ~/.K8sAddon/
           scp: |-
-            './*' => ~/.K8sAddon/
+            './files' => ~/.K8sAddon/
+            './tasks' => ~/.K8sAddon/
+            './templates' => ~/.K8sAddon/
+            './tools' => ~/.K8sAddon/
+            './vars' => ~/.K8sAddon/
           last_ssh: |-
-            chmod +x ~/.K8sAddon/tasks/*.sh
+            chmod +x ~/.K8sAddon/tasks/*
+            chmod +x ~/.K8sAddon/tools/*
             cd ~/.K8sAddon/
             sh tasks/deploy.sh

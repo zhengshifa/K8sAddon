@@ -2,7 +2,7 @@
 
 # 全局变量
 set -a
-base_dir=$HOME/.K8sAddon
+base_dir=${HOME}/.K8sAddon
 
 # 日志模块
 fn_log_info()  { TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S'); echo -e "$TIMESTAMP \033[32m[INFO]\033[0m $1"; }
