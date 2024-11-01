@@ -8,17 +8,17 @@ main() {
 }
 
 ##配置变量
-local_registry='xxx.com'
+local_registry='harbor.easzlab.io.local'
 default_tag='latest'
 default_repository='library'
 harbor_user=admin
-harbor_pass=Harbor12345
+harbor_pass=8c7oCVG-NHycn0Sq
 
 #检查输入的参数
 if [ $# -eq 0 ]; then
     #echo "Usage: $0 <helm-tgz-file>"
     #exit 1
-    ALL_USAGE=$(\ls *.tgz 2>/dev/null)
+    ALL_USAGE=$(\ls files/*.tgz 2>/dev/null)
 else
     ALL_USAGE="$@"
 fi
