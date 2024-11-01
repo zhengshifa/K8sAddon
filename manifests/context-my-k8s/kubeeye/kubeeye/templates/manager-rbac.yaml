@@ -1,0 +1,125 @@
+---
+# Source: kubeeye/templates/manager-rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: release-name-kubeeye-manager-role
+  labels:
+    helm.sh/chart: kubeeye-1.0.0
+    app.kubernetes.io/name: kubeeye
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.0.0"
+    app.kubernetes.io/managed-by: Helm
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - deletecollection
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - create
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - pods
+  - secrets
+  - services
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - serviceaccounts
+  verbs:
+  - create
+  - delete
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  verbs:
+  - create
+  - delete
+  - get
+- apiGroups:
+  - cluster.kubesphere.io
+  resources:
+  - clusters
+  verbs:
+  - get
+- apiGroups:
+  - kubeeye.kubesphere.io
+  resources:
+  - inspectplans
+  - inspectresults
+  - inspectrules
+  - inspecttasks
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - kubeeye.kubesphere.io
+  resources:
+  - inspectplans/finalizers
+  - inspectresults/finalizers
+  - inspectrules/finalizers
+  - inspecttasks/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - kubeeye.kubesphere.io
+  resources:
+  - inspectplans/status
+  - inspectresults/status
+  - inspectrules/status
+  - inspecttasks/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - clusterrolebindings
+  - clusterroles
+  verbs:
+  - '*'
+---
+# Source: kubeeye/templates/manager-rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: release-name-kubeeye-manager-rolebinding
+  labels:
+    helm.sh/chart: kubeeye-1.0.0
+    app.kubernetes.io/name: kubeeye
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.0.0"
+    app.kubernetes.io/managed-by: Helm
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: 'release-name-kubeeye-manager-role'
+subjects:
+- kind: ServiceAccount
+  name: 'release-name-kubeeye-controller-manager'
+  namespace: 'default'

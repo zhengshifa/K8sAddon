@@ -1,0 +1,138 @@
+---
+# Source: kubeeye/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-kubeeye-controller-manager
+  labels:
+    control-plane: kubeeye-controller-manager
+    helm.sh/chart: kubeeye-1.0.0
+    app.kubernetes.io/name: kubeeye
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      control-plane: kubeeye-controller-manager
+      app.kubernetes.io/name: kubeeye
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      labels:
+        control-plane: kubeeye-controller-manager
+        app.kubernetes.io/name: kubeeye
+        app.kubernetes.io/instance: release-name
+      annotations:
+        kubectl.kubernetes.io/default-container: manager
+    spec:
+      containers:
+      - args:
+        - --secure-listen-address=0.0.0.0:8443
+        - --upstream=http://127.0.0.1:8080/
+        - --logtostderr=true
+        - --v=0
+        env:
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: "cluster.local"
+        image: kubesphere/kube-rbac-proxy:v0.11.0
+        name: kube-rbac-proxy
+        ports:
+        - containerPort: 8443
+          name: https
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+          requests:
+            cpu: 5m
+            memory: 64Mi
+      - args:
+        - --health-probe-bind-address=:8081
+        - --metrics-bind-address=127.0.0.1:8080
+        - --leader-elect
+        env:
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: "cluster.local"
+        image: kubespheredev/kubeeye-controller:v1.0.1
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        name: manager
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 1500m
+            memory: 2Gi
+          requests:
+            cpu: 200m
+            memory: 256Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+        volumeMounts:
+        - mountPath: /kubeeye/data
+          name: inspect-result
+        - mountPath: /etc/localtime
+          name: localtime
+      - env:
+        - name: GIN_MODE
+          value: "release"
+        - name: DISABLE_SYSTEM_COMPONENT
+          value: "true"
+        - name: DISABLE_OVERVIEW
+          value: "true"
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: "cluster.local"
+        image: kubespheredev/kubeeye-apiserver:v1.0.1
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /readyz
+            port: 9090
+          initialDelaySeconds: 15
+          periodSeconds: 20
+          timeoutSeconds: 10
+        name: kubeeye-apiserver
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 9090
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 10
+        resources:
+          limits:
+            cpu: 500m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        volumeMounts:
+        - mountPath: /etc/localtime
+          name: localtime
+        - mountPath: /kubeeye/data
+          name: inspect-result
+          readOnly: true
+      securityContext:
+        fsGroup: 1000
+        runAsNonRoot: true
+      serviceAccountName: release-name-kubeeye-controller-manager
+      terminationGracePeriodSeconds: 10
+      volumes:
+      - name: inspect-result
+        persistentVolumeClaim:
+          claimName: release-name-kubeeye-inspect-result
+      - hostPath:
+          path: /etc/localtime
+        name: localtime
