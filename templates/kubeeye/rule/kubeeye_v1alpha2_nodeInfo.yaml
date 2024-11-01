@@ -1,0 +1,24 @@
+apiVersion: kubeeye.kubesphere.io/v1alpha2
+kind: InspectRule
+metadata:
+  labels:
+    app.kubernetes.io/name: inspectrule
+    app.kubernetes.io/instance: inspectrule-sample
+    app.kubernetes.io/part-of: kubeeye
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: kubeeye
+  name: inspect-rule-node-info
+spec:
+  nodeInfo:
+    - name: Cpu
+      rule: cpu > 20
+      resourcesType: cpu
+      desc: CPU usage greater than 20%
+    - name: Memory
+      rule: memory > 20
+      resourcesType: memory
+      desc: memory usage greater than 20%
+    - name: filesystem
+      rule: filesystem > 20
+      resourcesType: filesystem
+      desc: filesystem usage greater than 20%

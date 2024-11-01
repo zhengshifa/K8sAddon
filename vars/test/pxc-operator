@@ -1,6 +1,0 @@
-# mysql-operator
-
-helm_install="no"
-namespace="mysql-operator"
-chart_ver="1.15.0"
-release_name="mysql-operator"

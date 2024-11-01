@@ -11,3 +11,4 @@ tag='v4.0.1'
 nfs_server="192.168.137.11"
 nfs_path="/opt/nfs-storage"
 nfs_storage_class="nfs-storage"
+default_class="true"

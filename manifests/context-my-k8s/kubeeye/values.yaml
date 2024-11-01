@@ -100,4 +100,3 @@ metricsService:
 pvc:
   inspectResult:
     storageRequest: 10Gi
-    storageClass: nfs-storage
