@@ -101,13 +101,13 @@ spec:
             - name: PROVISIONER_NAME
               value: k8s-sigs.io/nfs-subdir-external-provisioner
             - name: NFS_SERVER
-              value: 192.168.137.11
+              value: 192.168.137.10
             - name: NFS_PATH
               value: /opt/nfs-storage
       volumes:
         - name: nfs-client-root
           nfs:
-            server: 192.168.137.11
+            server: 192.168.137.10
             path: /opt/nfs-storage
 
 ---
@@ -116,7 +116,7 @@ kind: StorageClass
 metadata:
   name: nfs-storage
   annotations:
-    storageclass.kubernetes.io/is-default-class: true
+    storageclass.kubernetes.io/is-default-class: "true"
 provisioner: k8s-sigs.io/nfs-subdir-external-provisioner
 parameters:
   archiveOnDelete: "false"
