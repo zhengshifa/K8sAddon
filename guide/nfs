@@ -22,10 +22,9 @@ chmod  755 /opt/nfs-storage
 
 编辑 /etc/exports 文件，添加导出目录及访问权限。例如:
 
-bash
-复制代码
+cat > /etc/exports << 'eof'
 /opt/nfs-storage *(rw,sync,no_subtree_check)
-这里的 * 表示允许所有主机访问。可以根据需要更改为特定 IP 或子网。
+eof
 
 3. 启动 NFS 服务
 bash

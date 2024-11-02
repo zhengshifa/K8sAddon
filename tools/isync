@@ -18,7 +18,7 @@ harbor_pass=8c7oCVG-NHycn0Sq
 if [ $# -eq 0 ]; then
     #echo "Usage: $0 <helm-tgz-file>"
     #exit 1
-    ALL_USAGE=$(\ls files/*.tgz 2>/dev/null)
+    ALL_USAGE=$(\ls ../files/*.tgz 2>/dev/null)
 else
     ALL_USAGE="$@"
 fi
@@ -36,8 +36,8 @@ EOF
 
 #生成~/.docker/config.json配置
 auth_base=`echo -n "$harbor_user:$harbor_pass" | base64 -w 0`
-if [ ! -f ~/.docker/config.json ];then
-
+mkdir -p ~/.docker/
+\cp ~/.docker/config.json ~/.docker/config.json_$(date +%F)
 cat > ~/.docker/config.json <<EOF
 {
 	"auths": {
@@ -47,7 +47,6 @@ cat > ~/.docker/config.json <<EOF
 	}
 }
 EOF
-fi
 
 logger() {
   TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S')
@@ -87,13 +86,19 @@ if ! command -v image-syncer >/dev/null 2>&1; then
     echo "正在下载同步工具image-syncer"
     #export https_proxy='xxx.xxx.68.185:3128'
     #export http_proxy='xxx.xxx.68.185:3128'
-    wget -O - https://gh.con.sh/https://github.com/AliyunContainerService/image-syncer/releases/download/v1.5.5/image-syncer-v1.5.5-linux-amd64.tar.gz | sudo tar -xzf - -C /bin/ 
+    wget -O - https://github.com/AliyunContainerService/image-syncer/releases/download/v1.5.5/image-syncer-v1.5.5-linux-amd64.tar.gz | sudo tar -xzf - -C /bin/ 
     chmod +x /bin/image-syncer
 fi
 }
 
 
 image_syncer() {
+
+    if ! which helm >/dev/null 2>&1 ;then
+        logger error "请安装helm"
+        exit 1
+    fi
+
 {
 for tgz_file in "$@"; do
     if [[ "$tgz_file" == *.tgz ]]; then
