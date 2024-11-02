@@ -116,7 +116,7 @@ kind: StorageClass
 metadata:
   name: ${nfs_storage_class}
   annotations:
-    storageclass.kubernetes.io/is-default-class: ${default_class}
+    storageclass.kubernetes.io/is-default-class: true
 provisioner: k8s-sigs.io/nfs-subdir-external-provisioner
 parameters:
   archiveOnDelete: "false"
