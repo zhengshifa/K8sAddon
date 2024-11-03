@@ -1,0 +1,12 @@
+# =
+
+## helm_install值可以是yes(安装)/no(卸载),null为无任何动作
+helm_install="yes"
+## 更新helmy  (yes)
+helm_upgrade=""
+
+
+namespace="falco"
+chart_ver="4.12.0"
+release_name="falco"
+falco_ttl="true"
