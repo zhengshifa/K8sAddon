@@ -24,20 +24,10 @@ else
 fi
 
 
-
-#配置私有harbor仓库
-cat > auth.yaml <<EOF
-$local_registry:
-  username: $harbor_user
-  password: $harbor_pass
-  insecure: true
-EOF
-
-
 #生成~/.docker/config.json配置
 auth_base=`echo -n "$harbor_user:$harbor_pass" | base64 -w 0`
 mkdir -p ~/.docker/
-\cp ~/.docker/config.json ~/.docker/config.json_$(date +%F)
+\cp ~/.docker/config.json ~/.docker/config.json_$(date +%F)_isync
 cat > ~/.docker/config.json <<EOF
 {
 	"auths": {

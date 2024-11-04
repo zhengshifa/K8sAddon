@@ -1,4 +1,4 @@
-# =
+#
 
 ## helm_install值可以是yes(安装)/no(卸载),null为无任何动作
 helm_install="no"
