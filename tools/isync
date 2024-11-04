@@ -3,7 +3,7 @@
 ### 功能:渲染helm tgz文件里面的原始镜像然后同步到本地仓库 ### sh isync xxx.tgz yyy.tgz  OR  sh isync 
 
 main() {
-    install_image_syncer
+    install_skopeo
     image_syncer $ALL_USAGE
 }
 
@@ -12,7 +12,7 @@ local_registry='harbor.easzlab.io.local'
 default_tag='latest'
 default_repository='library'
 harbor_user=admin
-harbor_pass=8c7oCVG-NHycn0Sq
+harbor_pass=dIzb4R6F33vmDUWj
 
 #检查输入的参数
 if [ $# -eq 0 ]; then
@@ -76,18 +76,17 @@ create_repo() {
         # 如果项目不存在，创建项目
         curl -s -X POST --max-time 3 -H "Content-Type: application/json" -H "Authorization: Basic $auth_base" \
         -d "{\"project_name\": \"${repo}\", \"public\": true}" \
-        http://$local_registry/api/v2.0/projects ||  { logger error "curl创建harbor仓库失败,请检查harbor配置信息"; exit 1; }
+        http://$local_registry/api/v2.0/projects &> /dev/null # ||  { logger error "curl创建harbor仓库失败,请检查harbor配置信息"; exit 1; }
     fi
 }
 
 
-install_image_syncer() {
-if ! command -v image-syncer >/dev/null 2>&1; then
-    echo "正在下载同步工具image-syncer"
+install_skopeo() {
+if ! command -v skopeo >/dev/null 2>&1; then
+    echo "正在下载同步工具skopeo"
     #export https_proxy='xxx.xxx.68.185:3128'
     #export http_proxy='xxx.xxx.68.185:3128'
-    wget -O - https://github.com/AliyunContainerService/image-syncer/releases/download/v1.5.5/image-syncer-v1.5.5-linux-amd64.tar.gz | sudo tar -xzf - -C /bin/ 
-    chmod +x /bin/image-syncer
+    yum -y install skopeo
 fi
 }
 
@@ -98,8 +97,7 @@ image_syncer() {
         logger error "请安装helm"
         exit 1
     fi
-
-{
+>isync.log
 for tgz_file in "$@"; do
     if [[ "$tgz_file" == *.tgz ]]; then
         helm template "$tgz_file" | awk '/image:/ && NF && $1 !~ /^#/ {
@@ -116,48 +114,44 @@ for tgz_file in "$@"; do
                                                 # 处理带标签的镜像
                                                 modified_image=${image#*/}
                                                 new_image=$local_registry/$modified_image
-                                                echo $old_image: $new_image
                                             else
                                                 # 处理没有标签的镜像
                                                 modified_image=${image#*/}
                                                 new_image=$local_registry/$modified_image:$default_tag
-                                                echo $old_image: $new_image
                                             fi
                                         elif [[ $(echo $image | grep -o "/" | wc -l) -eq 1 ]]; then
                                             if [[ $image == *:* ]]; then
                                                 # 处理带标签的镜像
                                                 new_image=$local_registry/$image
-                                                echo $old_image: $new_image
-
                                             else
                                                 # 处理没有标签的镜像
                                                 new_image=$local_registry/$image:$default_tag
-                                                echo $old_image: $new_image
-
                                             fi
                                         else
                                             if [[ $image == *:* ]]; then
                                                 # 处理带标签的镜像
                                                 new_image=$local_registry/$default_repository/$image
-                                                echo $old_image: $new_image
-
                                             else
                                                 # 处理没有标签的镜像
                                                 new_image=$local_registry/$default_repository/$image:$default_tag
-                                                echo $old_image: $new_image
-
+                                               # echo $old_image: $new_image
                                             fi
                                         fi
                                         repo=$(echo "$new_image" | cut -d'/' -f2)
                                         create_repo
+                                        echo "skopeo sync --src docker --dest docker --dest-tls-verify=false $old_image $local_registry/$repo" | bash
+                                        if [ $? -ne 0 ];then
+                                            logger error "同步失败  $old_image ======>  $local_registry/$repo" >> isync.log
+                                        else
+                                            logger info  "同步成功  $old_image ======>  $local_registry/$repo" >> isync.log
+                                        fi
                                     done
 
     else
         continue
     fi
 done
-} > images.yaml
-image-syncer --proc=6  --retries=3 --images=images.yaml --auth=auth.yaml
+
 }
 
 main
