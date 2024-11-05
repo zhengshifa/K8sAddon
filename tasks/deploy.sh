@@ -75,6 +75,8 @@ fn_helm_install() {
     elif [  "$helm_install" == 'no' ];then
         # 删除app
         helm uninstall ${release_name} -n ${namespace} &>/dev/null
+        helm template ${release_name} -n ${namespace} -f  ${manifests_dir}/values.yaml  ${base_dir}/files/${filename}-${chart_ver}.tgz  --output-dir  ${manifests_dir}
+        kubectl delete -f ${manifests_dir}/${filename}/templates/  &>/dev/null
         fn_log_info "${filename} 使用helm删除成功 release名字为 ${release_name}"
 
     else
