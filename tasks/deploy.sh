@@ -31,6 +31,7 @@ fn_deploy() {
             . $file # 加载变量文件
             shopt -s nocasematch  # 开启不区分大小写
 
+            fn_j2_to_files  # 模板文件渲染
 
             if [ -n "$helm_install" ];then
                 fn_helm_install
@@ -52,9 +53,7 @@ fn_deploy() {
 
 # helm部署/删除
 fn_helm_install() {
-
     if [ "$helm_install" == 'yes' ];then
-        fn_j2_to_files  # 模板文件渲染
 
         # helm部署app
         if [ "$helm_upgrade" == 'yes' ];then
@@ -87,9 +86,7 @@ fn_helm_install() {
 
 # yaml部署
 fn_yaml_deploy() {
-
     if [ "$yaml_install" == 'yes' ];then
-        fn_j2_to_files  # 模板文件渲染
         # yaml部署app
         kubectl apply -f ${manifests_dir}  &>/dev/null
         [ $? == 0 ] && fn_log_info "yaml 部署 ${filename}资源成功" || fn_log_error "安装 ${filename} yaml资源 失败"
