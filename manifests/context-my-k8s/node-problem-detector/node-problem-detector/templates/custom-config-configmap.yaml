@@ -5,10 +5,10 @@ data:
   {}
 kind: ConfigMap
 metadata:
-  name: release-name-node-problem-detector-custom-config
+  name: npd-node-problem-detector-custom-config
   labels:
     app.kubernetes.io/name: node-problem-detector
     helm.sh/chart: node-problem-detector-2.3.14
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/instance: npd
     app.kubernetes.io/managed-by: Helm
-  namespace: default
+  namespace: kube-system

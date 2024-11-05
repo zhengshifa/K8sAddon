@@ -3,19 +3,19 @@
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
-  name: istio-sidecar-injector-default
+  name: istio-sidecar-injector
   labels:
     istio.io/rev: "default"
     install.operator.istio.io/owning-resource: unknown
     operator.istio.io/component: "Pilot"
     app: sidecar-injector
-    release: release-name
+    release: istiod
 webhooks:
 - name: rev.namespace.sidecar-injector.istio.io
   clientConfig:
     service:
       name: istiod
-      namespace: default
+      namespace: istio-system
       path: "/inject"
       port: 443
   sideEffects: None
@@ -45,7 +45,7 @@ webhooks:
   clientConfig:
     service:
       name: istiod
-      namespace: default
+      namespace: istio-system
       path: "/inject"
       port: 443
   sideEffects: None
@@ -77,7 +77,7 @@ webhooks:
   clientConfig:
     service:
       name: istiod
-      namespace: default
+      namespace: istio-system
       path: "/inject"
       port: 443
   sideEffects: None
@@ -105,7 +105,7 @@ webhooks:
   clientConfig:
     service:
       name: istiod
-      namespace: default
+      namespace: istio-system
       path: "/inject"
       port: 443
   sideEffects: None

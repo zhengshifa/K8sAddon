@@ -3,12 +3,12 @@
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: release-name-pxc-operator
-  namespace: default
+  name: mysql-operator-pxc-operator
+  namespace: mysql-operator
   labels:
     app.kubernetes.io/name: pxc-operator
     helm.sh/chart: pxc-operator-1.15.0
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/instance: mysql-operator
     app.kubernetes.io/version: "1.15.0"
     app.kubernetes.io/managed-by: Helm
 rules:

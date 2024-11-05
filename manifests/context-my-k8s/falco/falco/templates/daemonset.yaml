@@ -3,31 +3,31 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: release-name-falco
-  namespace: default
+  name: falco
+  namespace: falco
   labels:
     helm.sh/chart: falco-4.12.0
     app.kubernetes.io/name: falco
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/instance: falco
     app.kubernetes.io/version: "0.39.1"
     app.kubernetes.io/managed-by: Helm
 spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: falco
-      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/instance: falco
   template:
     metadata:
-      name: release-name-falco
+      name: falco
       labels:
         app.kubernetes.io/name: falco
-        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/instance: falco
       annotations:
-        checksum/config: 97d619dd18a9c160c1bcee4fa7636e587f1e93fedb579fd277147fce1efc2f52
+        checksum/config: 841f688da66ad0b2ac0da4bfe71a37f6ad56a76b107acdfc9b8422527defaf2f
         checksum/rules: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/certs: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
     spec:
-      serviceAccountName: release-name-falco
+      serviceAccountName: falco
       tolerations:
         - effect: NoSchedule
           key: node-role.kubernetes.io/master
@@ -66,7 +66,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
-          tty: false
+          tty: true
           livenessProbe:
             initialDelaySeconds: 60
             timeoutSeconds: 5
@@ -160,7 +160,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: FALCOCTL_DRIVER_CONFIG_CONFIGMAP
-              value: release-name-falco
+              value: falco
         - name: falcoctl-artifact-install
           image: docker.io/falcosecurity/falcoctl:0.10.0
           imagePullPolicy: IfNotPresent
@@ -168,13 +168,6 @@ spec:
             - artifact
             - install
             - --log-format=json
-          env:
-            - name: http_proxy
-              value: "http://192.168.137.10:7890"
-            - name: https_proxy
-              value: "http://192.168.137.10:7890"
-            - name: no_proxy
-              value: "localhost,127.0.0.1"  # 可选，用于指定不使用代理的地址
           securityContext:
           volumeMounts:
             - mountPath: /plugins
@@ -224,13 +217,13 @@ spec:
             path: /proc
         - name: falcoctl-config-volume
           configMap: 
-            name: release-name-falco-falcoctl
+            name: falco-falcoctl
             items:
               - key: falcoctl.yaml
                 path: falcoctl.yaml
         - name: falco-yaml
           configMap:
-            name: release-name-falco
+            name: falco
             items:
             - key: falco.yaml
               path: falco.yaml

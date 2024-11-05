@@ -3,18 +3,18 @@
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: release-name-falco
+  name: falco
   labels:
     helm.sh/chart: falco-4.12.0
     app.kubernetes.io/name: falco
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/instance: falco
     app.kubernetes.io/version: "0.39.1"
     app.kubernetes.io/managed-by: Helm
 subjects:
   - kind: ServiceAccount
-    name: release-name-falco
-    namespace: default
+    name: falco
+    namespace: falco
 roleRef:
   kind: Role
-  name: release-name-falco
+  name: falco
   apiGroup: rbac.authorization.k8s.io

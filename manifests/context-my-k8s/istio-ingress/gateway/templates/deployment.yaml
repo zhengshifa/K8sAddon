@@ -3,13 +3,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: release-name
-  namespace: default
+  name: istio-ingress
+  namespace: istio-system
   labels:
     helm.sh/chart: gateway-1.23.2
-    app: release-name
-    istio: release-name
-    app.kubernetes.io/name: release-name
+    app: istio-ingress
+    istio: ingress
+    app.kubernetes.io/name: istio-ingress
     app.kubernetes.io/version: "1.23.2"
     app.kubernetes.io/managed-by: Helm
   annotations:
@@ -17,8 +17,8 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: release-name
-      istio: release-name
+      app: istio-ingress
+      istio: ingress
   template:
     metadata:
       annotations:
@@ -29,12 +29,12 @@ spec:
         sidecar.istio.io/inject: "true"
       labels:
         sidecar.istio.io/inject: "true"
-        app: release-name
-        istio: release-name
-        app.kubernetes.io/name: release-name
+        app: istio-ingress
+        istio: ingress
+        app.kubernetes.io/name: istio-ingress
         app.kubernetes.io/version: "1.23.2"
     spec:
-      serviceAccountName: release-name
+      serviceAccountName: istio-ingress
       securityContext:
         # Safe since 1.22: https://github.com/kubernetes/kubernetes/pull/103326
         sysctls:

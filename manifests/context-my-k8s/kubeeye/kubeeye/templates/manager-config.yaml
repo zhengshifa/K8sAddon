@@ -3,11 +3,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-kubeeye-manager-config
+  name: kubeeye-manager-config
   labels:
     helm.sh/chart: kubeeye-1.0.0
     app.kubernetes.io/name: kubeeye
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/instance: kubeeye
     app.kubernetes.io/version: "v1.0.0"
     app.kubernetes.io/managed-by: Helm
 data:

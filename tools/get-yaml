@@ -17,10 +17,12 @@ for env_var in $(grep -v '^#' "$base_dir"/vars/global_vars | grep -v '^\s*$'); d
         filename=$(basename "$file") # 获取变量的文件名
         
         echo -e "\033[35m   $filename 正在生成yaml文件.... 环境:$env_var \033[0m"
-        
         fn_j2_to_files
         if [ -f ${base_dir}/manifests/${env_var}/${filename}/values.yaml ];then
-            helm template  ${base_dir}/files/${filename}-${chart_ver}.tgz  --output-dir  ${base_dir}/manifests/${env_var}/${filename}
+        (
+            . $file
+            helm template ${release_name} -n ${namespace} -f  ${base_dir}/manifests/${env_var}/${filename}/values.yaml  ${base_dir}/files/${filename}-${chart_ver}.tgz  --output-dir  ${base_dir}/manifests/${env_var}/${filename}
+        )
         fi   
         sleep 1
     done

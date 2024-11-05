@@ -73,10 +73,10 @@ create_repo() {
 
 install_skopeo() {
 if ! command -v skopeo >/dev/null 2>&1; then
-    echo "正在下载同步工具skopeo"
+    logger info "正在下载同步工具skopeo"
     #export https_proxy='xxx.xxx.68.185:3128'
     #export http_proxy='xxx.xxx.68.185:3128'
-    yum -y install skopeo
+    yum -y install skopeo && logger info "skopeo安装成功"
 fi
 }
 

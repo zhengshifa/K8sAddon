@@ -3,12 +3,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-falco
-  namespace: default
+  name: falco
+  namespace: falco
   labels:
     helm.sh/chart: falco-4.12.0
     app.kubernetes.io/name: falco
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/instance: falco
     app.kubernetes.io/version: "0.39.1"
     app.kubernetes.io/managed-by: Helm
 data:
@@ -24,7 +24,7 @@ data:
       ebpf:
         buf_size_preset: 4
         drop_failed_exit: false
-        probe: ${HOME}/.falco/falco-bpf.o
+        probe: /home/zhengshifa/.falco/falco-bpf.o
       kind: modern_ebpf
       kmod:
         buf_size_preset: 4

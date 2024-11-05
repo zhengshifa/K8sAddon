@@ -3,11 +3,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-kubeeye-config
+  name: kubeeye-config
   labels:
     helm.sh/chart: kubeeye-1.0.0
     app.kubernetes.io/name: kubeeye
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/instance: kubeeye
     app.kubernetes.io/version: "v1.0.0"
     app.kubernetes.io/managed-by: Helm
 data:
@@ -15,7 +15,7 @@ data:
    job:
      autoDelTime: 30
      backLimit: 5
-     image: kubespheredev/kubeeye-job:v1.0.1
+     image: kubespheredev/kubeeye-job:v1.0.2
      imagePullPolicy: IfNotPresent
      resources:
        limits:
@@ -26,5 +26,5 @@ data:
          memory: 256Mi
      multiCluster:
        member1:
-         image: kubespheredev/kubeeye-job:v1.0.1
+         image: kubespheredev/kubeeye-job:v1.0.2
          imagePullPolicy: IfNotPresent

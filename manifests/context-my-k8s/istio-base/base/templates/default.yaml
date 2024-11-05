@@ -6,7 +6,7 @@ metadata:
   name: istiod-default-validator
   labels:
     app: istiod
-    release: release-name
+    release: istio-base
     istio: istiod
     istio.io/rev: "default"
 webhooks:

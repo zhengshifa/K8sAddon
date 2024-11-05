@@ -3,11 +3,11 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: release-name-kubeeye-manager-role
+  name: kubeeye-manager-role
   labels:
     helm.sh/chart: kubeeye-1.0.0
     app.kubernetes.io/name: kubeeye
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/instance: kubeeye
     app.kubernetes.io/version: "v1.0.0"
     app.kubernetes.io/managed-by: Helm
 rules:
@@ -108,18 +108,18 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: release-name-kubeeye-manager-rolebinding
+  name: kubeeye-manager-rolebinding
   labels:
     helm.sh/chart: kubeeye-1.0.0
     app.kubernetes.io/name: kubeeye
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/instance: kubeeye
     app.kubernetes.io/version: "v1.0.0"
     app.kubernetes.io/managed-by: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: 'release-name-kubeeye-manager-role'
+  name: 'kubeeye-manager-role'
 subjects:
 - kind: ServiceAccount
-  name: 'release-name-kubeeye-controller-manager'
-  namespace: 'default'
+  name: 'kubeeye-controller-manager'
+  namespace: 'kubeeye-system'

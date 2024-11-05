@@ -3,23 +3,23 @@
 apiVersion: pxc.percona.com/v1
 kind: PerconaXtraDBCluster
 metadata:
-  name: release-name-pxc-db
-  namespace: default
+  name: mysql-cluster-pxc-db
+  namespace: mysql-cluster
   labels:
     app.kubernetes.io/name: pxc-db
     helm.sh/chart: pxc-db-1.15.0
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/instance: mysql-cluster
     app.kubernetes.io/version: "1.15.0"
     app.kubernetes.io/managed-by: Helm
   finalizers:
     - percona.com/delete-pxc-pods-in-order
 spec:
   crVersion: 1.15.0
-  secretsName: release-name-pxc-db-secrets
-  sslSecretName: release-name-pxc-db-ssl
-  sslInternalSecretName: release-name-pxc-db-ssl-internal
-  vaultSecretName: release-name-pxc-db-vault
-  logCollectorSecretName: release-name-pxc-db-log-collector
+  secretsName: mysql-cluster-pxc-db-secrets
+  sslSecretName: mysql-cluster-pxc-db-ssl
+  sslInternalSecretName: mysql-cluster-pxc-db-ssl-internal
+  vaultSecretName: mysql-cluster-pxc-db-vault
+  logCollectorSecretName: mysql-cluster-pxc-db-log-collector
   enableCRValidationWebhook: false
   pause: false
   updateStrategy: SmartUpdate
@@ -151,6 +151,40 @@ spec:
     pitr:
       enabled: false
     storages:
-      {}
+      STORAGE-NAME-HERE:
+        type: filesystem
+        volume:
+          persistentVolumeClaim:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 6G
+            storageClassName: local-path
+      azure-blob:
+        azure:
+          container: test
+          credentialsSecret: azure-secret
+        type: azure
+      fs-pvc:
+        type: filesystem
+        volume:
+          persistentVolumeClaim:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 6G
+            storageClassName: local-path
+      s3-us-west:
+        s3:
+          bucket: S3-BACKUP-BUCKET-NAME-HERE
+          credentialsSecret: my-cluster-name-backup-s3
+          region: us-west-2
+        type: s3
+        verifyTLS: true
     schedule:
-      []
+      - keep: 5
+        name: daily-backup
+        schedule: 0 0 * * *
+        storageName: fs-pvc

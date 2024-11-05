@@ -1,0 +1,28 @@
+---
+# Source: argo-cd/charts/redis-ha/templates/redis-ha-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: argo-cd-redis-ha
+  namespace: "argo-cd"
+  labels:
+    app: redis-ha
+    heritage: "Helm"
+    release: "argo-cd"
+    chart: redis-ha-4.27.6
+  annotations:
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - name: tcp-server
+    port: 6379
+    protocol: TCP
+    targetPort: redis
+  - name: tcp-sentinel
+    port: 26379
+    protocol: TCP
+    targetPort: sentinel
+  selector:
+    release: argo-cd
+    app: redis-ha

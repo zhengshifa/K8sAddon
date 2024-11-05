@@ -3,11 +3,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: release-name-kubeeye-apiserver
+  name: kubeeye-apiserver
   labels:
     helm.sh/chart: kubeeye-1.0.0
     app.kubernetes.io/name: kubeeye
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/instance: kubeeye
     app.kubernetes.io/version: "v1.0.0"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -15,7 +15,7 @@ spec:
   selector:
     control-plane: kubeeye-controller-manager
     app.kubernetes.io/name: kubeeye
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/instance: kubeeye
   ports:
   - port: 9090
     protocol: TCP

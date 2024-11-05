@@ -4,10 +4,10 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: istiod
-  namespace: default
+  namespace: istio-system
   labels:
     app: istiod
-    release: release-name
+    release: istiod
     istio.io/rev: "default"
     install.operator.istio.io/owning-resource: unknown
     operator.istio.io/component: "Pilot"

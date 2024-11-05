@@ -1,0 +1,28 @@
+---
+# Source: argo-cd/templates/argocd-server/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argo-cd-argocd-server
+  namespace: argo-cd
+  labels:
+    helm.sh/chart: argo-cd-7.6.12
+    app.kubernetes.io/name: argocd-server
+    app.kubernetes.io/instance: argo-cd
+    app.kubernetes.io/component: server
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: argocd
+    app.kubernetes.io/version: "v2.12.6"
+spec:
+  ingressClassName: istio-ingress
+  rules:
+    - host: argocd.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: argo-cd-argocd-server
+                port:
+                  number: 443

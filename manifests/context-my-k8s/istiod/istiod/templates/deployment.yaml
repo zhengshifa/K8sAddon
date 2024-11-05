@@ -4,14 +4,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: istiod
-  namespace: default
+  namespace: istio-system
   labels:
     app: istiod
     istio.io/rev: "default"
     install.operator.istio.io/owning-resource: unknown
     operator.istio.io/component: "Pilot"
     istio: pilot
-    release: release-name
+    release: istiod
 spec:
   strategy:
     rollingUpdate:
@@ -92,7 +92,7 @@ spec:
           # if present
           
           - name: CA_TRUSTED_NODE_ACCOUNTS
-            value: "default/ztunnel"
+            value: "istio-system/ztunnel"
           - name: PILOT_TRACE_SAMPLING
             value: "1"
 # If externalIstiod is set via Values.Global, then enable the pilot env variable. However, if it's set via Values.pilot.env, then

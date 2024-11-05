@@ -3,12 +3,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-falco-falcoctl
-  namespace: default
+  name: falco-falcoctl
+  namespace: falco
   labels:
     helm.sh/chart: falco-4.12.0
     app.kubernetes.io/name: falco
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/instance: falco
     app.kubernetes.io/version: "0.39.1"
     app.kubernetes.io/managed-by: Helm
 data:

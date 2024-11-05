@@ -3,14 +3,14 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: istiod-clusterrole-default
+  name: istiod-clusterrole-istio-system
   labels:
     app: istiod
-    release: release-name
+    release: istiod
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: istiod-clusterrole-default
+  name: istiod-clusterrole-istio-system
 subjects:
   - kind: ServiceAccount
     name: istiod
@@ -20,14 +20,14 @@ subjects:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: istiod-gateway-controller-default
+  name: istiod-gateway-controller-istio-system
   labels:
     app: istiod
-    release: release-name
+    release: istiod
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: istiod-gateway-controller-default
+  name: istiod-gateway-controller-istio-system
 subjects:
 - kind: ServiceAccount
   name: istiod
