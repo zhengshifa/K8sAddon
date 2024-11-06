@@ -51,7 +51,7 @@ fn_deploy() {
 }
 
 
-# helm部署/删除
+# helm部署/删除/更新
 fn_helm_install() {
     if [ "$helm_install" == 'yes' ];then
 
@@ -75,16 +75,15 @@ fn_helm_install() {
         # 删除app
         helm uninstall ${release_name} -n ${namespace} &>/dev/null
         helm template ${release_name} -n ${namespace} -f  ${manifests_dir}/values.yaml  ${base_dir}/files/${filename}-${chart_ver}.tgz  --output-dir  ${manifests_dir}
-        kubectl delete -f ${manifests_dir}/${filename}/templates/  &>/dev/null
+        kubectl delete  -R  -f ${manifests_dir} -&>/dev/null
         fn_log_info "${filename} 使用helm删除成功 release名字为 ${release_name}"
-
     else
         fn_log_error "$file 变量install参数值未设置正确"
     fi
 }
 
 
-# yaml部署
+# yaml部署/删除/更新
 fn_yaml_deploy() {
     if [ "$yaml_install" == 'yes' ];then
         # yaml部署app
