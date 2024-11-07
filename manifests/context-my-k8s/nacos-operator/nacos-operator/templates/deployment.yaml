@@ -1,0 +1,42 @@
+---
+# Source: nacos-operator/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nacos-operator
+  labels:
+    helm.sh/chart: nacos-operator-0.1.0
+    app.kubernetes.io/name: nacos-operator
+    app.kubernetes.io/instance: nacos-operator
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: nacos-operator
+      app.kubernetes.io/instance: nacos-operator
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: nacos-operator
+        app.kubernetes.io/instance: nacos-operator
+    spec:
+      serviceAccountName: nacos-operator
+      securityContext:
+        {}
+      containers:
+        - name: nacos-operator
+          securityContext:
+            {}
+          image: "nacos/nacos-operator:latest"
+          command: ["/manager"]
+          args: ["--enable-leader-election"]
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
