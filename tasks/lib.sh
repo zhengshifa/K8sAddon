@@ -5,9 +5,9 @@ set -a
 base_dir=${HOME}/.K8sAddon
 
 # 日志模块
-fn_log_info()  { TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S'); echo -e "$TIMESTAMP \033[32m[INFO]\033[0m $1"; }
-fn_log_warn()  { TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S'); echo -e "$TIMESTAMP \033[33m[WARN]\033[0m $1"; }
-fn_log_error() { TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S'); echo -e "$TIMESTAMP \033[31m[ERROR]\033[0m $1"; }
+fn_log_info()  { TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S'); echo -e "$TIMESTAMP \033[32m[INFO]  $1\033[0m"; }
+fn_log_warn()  { TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S'); echo -e "$TIMESTAMP \033[33m[WARN]  $1\033[0m"; }
+fn_log_error() { TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S'); echo -e "$TIMESTAMP \033[31m[ERROR]  $1\033[0m"; }
 
 
 # j2模板文件渲染

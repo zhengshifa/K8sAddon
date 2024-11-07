@@ -9,7 +9,6 @@ spec:
   resources:
     requests:
       storage: 2Mi
-
 ---
 kind: Pod
 apiVersion: v1
