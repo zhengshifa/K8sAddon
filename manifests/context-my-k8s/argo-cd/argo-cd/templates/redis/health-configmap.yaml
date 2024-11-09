@@ -3,12 +3,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: release-name-argocd-redis-health-configmap
-  namespace: default
+  name: argo-cd-argocd-redis-health-configmap
+  namespace: argo-cd
   labels:
     helm.sh/chart: argo-cd-7.6.12
     app.kubernetes.io/name: argocd-redis
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/instance: argo-cd
     app.kubernetes.io/component: redis
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: argocd

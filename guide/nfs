@@ -6,7 +6,7 @@
 对于 CentOS/RHEL:
 bash
 
-sudo yum install nfs-utils
+sudo yum  -y install nfs-utils
 对于 Ubuntu/Debian:
 bash
 
@@ -47,16 +47,13 @@ sudo yum install nfs-utils
 bash
 
 sudo apt-get install nfs-common
-创建挂载点（例如 /opt/nfs-storage):
 
-bash
-
-sudo mkdir -p /opt/nfs-storage
 挂载 NFS 共享:
 
 bash
 
-sudo mount -t nfs <server_ip>:/opt/nfs-storage /tmp/mount
+mkdir -p /tmp/mount
+sudo mount -t nfs 192.168.137.11:/opt/nfs-storage /tmp/mount
 将 <server_ip> 替换为 NFS 服务器的 IP 地址。
 
 验证挂载:
@@ -76,7 +73,7 @@ bash
 bash
 
 sudo umount /tmp/mount
-
+rm -rf /tmp/mount
 
 
 ### 启动var变量

@@ -23,7 +23,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/cmd-params: 14eb490d9a940559b6cfe8eeb078d4d9c46368835b006b798ffc0f2f11793833
+        checksum/cmd-params: cc5da8deeddbdc4bca76463edee4e461ef13c3206503f4e80e236e7d0dd907f2
         checksum/cm: f590f0c2247fabd5d023b694fb089b4706909b9601b1c5302c27bc21b192ab11
       labels:
         helm.sh/chart: argo-cd-7.6.12
@@ -224,13 +224,13 @@ spec:
           - name: REDIS_SENTINEL_USERNAME
             valueFrom:
               secretKeyRef:
-                name: argo-cd-redis-ha-haproxy
+                name: argo-cd-argocd-redis
                 key: redis-sentinel-username
                 optional: true
           - name: REDIS_SENTINEL_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: argo-cd-redis-ha-haproxy
+                name: argo-cd-argocd-redis
                 key: redis-sentinel-password
                 optional: true
           - name: ARGOCD_DEFAULT_CACHE_EXPIRATION

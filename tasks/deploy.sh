@@ -28,7 +28,13 @@ fn_deploy() {
             manifests_dir=${base_dir}/manifests/${env_var}/${filename}
             (  # (xx) 隔离变量
             echo -e "\033[35m 正在执行 环境:$env_var 中 $filename 相关操作...\033[0m"
-            . $file # 加载变量文件
+            helm_upgrade=$(grep "^helm_upgrade:" $file | sed 's/.*: *"\(.*\)"/\1/')
+            helm_install=$(grep "^helm_install:" $file | sed 's/.*: *"\(.*\)"/\1/')
+            yaml_install=$(grep "^yaml_install:" $file | sed 's/.*: *"\(.*\)"/\1/')
+            release_name=$(grep "^release_name:" $file | sed 's/.*: *"\(.*\)"/\1/')
+            namespace=$(grep "^namespace:" $file | sed 's/.*: *"\(.*\)"/\1/')
+            chart_ver=$(grep "^chart_ver:" $file | sed 's/.*: *"\(.*\)"/\1/')
+
             shopt -s nocasematch  # 开启不区分大小写
 
             fn_j2_to_files  # 模板文件渲染
@@ -62,7 +68,7 @@ fn_helm_install() {
             ${base_dir}/files/${filename}-${chart_ver}.tgz &>/dev/null
             [ $? == 0 ] && fn_log_info "${filename} 使用helm更新成功 release名字为 ${release_name}" || fn_log_error "helm更新 ${release_name} 失败"
         elif ! helm status ${release_name} -n ${namespace} &>/dev/null ;then
-            helm install ${release_name} --create-namespace \
+            helm install ${  } --create-namespace \
             -n ${namespace} -f ${manifests_dir}/values.yaml \
             ${base_dir}/files/${filename}-${chart_ver}.tgz &>/dev/null
             helm status ${release_name} -n ${namespace} &>/dev/null

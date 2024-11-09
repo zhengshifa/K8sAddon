@@ -84,7 +84,7 @@ spec:
       serviceAccountName: local-path-provisioner-service-account
       containers:
         - name: local-path-provisioner
-          image: ${registry}/${repository}/${image}:${tag}
+          image: {{ registry }}/{{ repository }}/{{ image }}:{{ tag }}
           imagePullPolicy: IfNotPresent
           command:
             - local-path-provisioner
@@ -127,7 +127,7 @@ data:
             "nodePathMap":[
             {
                     "node":"DEFAULT_PATH_FOR_NON_LISTED_NODES",
-                    "paths":["${local_path_provisioner_dir}"]
+                    "paths":["{{ local_path_provisioner_dir }}"]
             }
             ]
     }
@@ -152,5 +152,5 @@ data:
           effect: NoSchedule
       containers:
       - name: helper-pod
-        image: ${registry}/${repository}/${image}:${tag}
+        image: {{ registry }}/{{ repository }}/{{ image }}:{{ tag }}
         imagePullPolicy: IfNotPresent

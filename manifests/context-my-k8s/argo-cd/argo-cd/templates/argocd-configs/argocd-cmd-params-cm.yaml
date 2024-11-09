@@ -29,7 +29,7 @@ data:
   controller.self.heal.timeout.seconds: "5"
   controller.status.processors: "20"
   otlp.address: ""
-  redis.server: argo-cd-redis-ha-haproxy:6379
+  redis.server: argo-cd-argocd-redis:6379
   repo.server: argo-cd-argocd-repo-server:8081
   reposerver.log.format: text
   reposerver.log.level: info
