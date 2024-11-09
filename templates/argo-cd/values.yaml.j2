@@ -476,7 +476,7 @@ redis:
       additionalLabels: {}
       annotations: {}
 redis-ha:
-  enabled: false
+  enabled: {{ redis_ha | default('false') }}
   image:
     repository: public.ecr.aws/docker/library/redis
     tag: 7.2.4-alpine
