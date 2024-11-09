@@ -21,9 +21,9 @@ for env_var in $(grep -v '^#' "$base_dir"/vars/global_vars | grep -v '^\s*$'); d
         if [ -f ${base_dir}/manifests/${env_var}/${filename}/values.yaml ];then
         (
             #. $file
-            namespace=$(grep "^namespace:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/'
-            release_name=$(grep "^release_name:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/'
-            chart_ver=$(grep "^chart_ver:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/'
+            namespace=$(grep "^namespace:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/')
+            release_name=$(grep "^release_name:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/')
+            chart_ver=$(grep "^chart_ver:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/')
 
             helm template ${release_name} -n ${namespace} -f  ${base_dir}/manifests/${env_var}/${filename}/values.yaml  ${base_dir}/files/${filename}-${chart_ver}.tgz  --output-dir  ${base_dir}/manifests/${env_var}/${filename}
         )

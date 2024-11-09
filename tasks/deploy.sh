@@ -28,12 +28,12 @@ fn_deploy() {
             manifests_dir=${base_dir}/manifests/${env_var}/${filename}
 
             echo -e "\033[35m 正在执行 环境:$env_var 中 $filename 相关操作...\033[0m"
-            helm_upgrade=$(grep "^helm_upgrade:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/'
-            helm_install=$(grep "^helm_install:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/'
-            yaml_install=$(grep "^yaml_install:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/'
-            release_name=$(grep "^release_name:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/'
-            namespace=$(grep "^namespace:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/'
-            chart_ver=$(grep "^chart_ver:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/'
+            helm_upgrade=$(grep "^helm_upgrade:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/')
+            helm_install=$(grep "^helm_install:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/')
+            yaml_install=$(grep "^yaml_install:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/')
+            release_name=$(grep "^release_name:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/')
+            namespace=$(grep "^namespace:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/')
+            chart_ver=$(grep "^chart_ver:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/')
 
             shopt -s nocasematch  # 开启不区分大小写
 

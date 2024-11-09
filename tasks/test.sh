@@ -32,8 +32,8 @@ fn_funct_test() {
         for file in "$base_dir"/vars/$env_var/*; do
         (
             #. $file # 加载变量文件
-            helm_install=$(grep "^helm_install:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/'
-            yaml_install=$(grep "^yaml_install:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/'
+            helm_install=$(grep "^helm_install:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/')
+            yaml_install=$(grep "^yaml_install:" $file | sed -E 's/^[^"]*"([^"]*)".*$/\1/')
             shopt -s nocasematch  # 开启不区分大小写
             
             if [ "$helm_install" == 'yes' ] || [ "$yaml_install" == "yes" ] ;then
