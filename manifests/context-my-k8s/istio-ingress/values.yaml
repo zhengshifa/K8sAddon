@@ -1,1 +1,146 @@
-../templates/istio-ingress/values.yaml.j2
+_internal_defaults_do_not_set:
+  name: ""
+  revision: ""
+  replicaCount:
+  kind: Deployment
+  rbac:
+    enabled: true
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+  podAnnotations:
+    prometheus.io/port: "15020"
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/stats/prometheus"
+    inject.istio.io/templates: "gateway"
+    sidecar.istio.io/inject: "true"
+  securityContext: {}
+  containerSecurityContext: {}
+  service:
+    type: LoadBalancer
+    ports:
+    - name: status-port
+      port: 15021
+      protocol: TCP
+      targetPort: 15021
+    - name: http2
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 443
+    annotations: {}
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    externalTrafficPolicy: ""
+    externalIPs: []
+    ipFamilyPolicy: ""
+    ipFamilies: []
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 2000m
+      memory: 1024Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: {}
+    autoscaleBehavior: {}
+  env: {}
+  strategy: {}
+  minReadySeconds:
+  readinessProbe: {}
+  labels: {}
+  annotations: {}
+  nodeSelector: {}
+  tolerations: []
+  topologySpreadConstraints: []
+  affinity: {}
+  networkGateway: ""
+  imagePullPolicy: ""
+  imagePullSecrets: []
+  podDisruptionBudget: {}
+  terminationGracePeriodSeconds: 30
+  volumes: []
+  volumeMounts: []
+  priorityClassName: ""
+_internal_defaults_do_not_set:
+  name: ""
+  revision: ""
+  replicaCount:
+  kind: Deployment
+  rbac:
+    enabled: true
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+  podAnnotations:
+    prometheus.io/port: "15020"
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/stats/prometheus"
+    inject.istio.io/templates: "gateway"
+    sidecar.istio.io/inject: "true"
+  securityContext: {}
+  containerSecurityContext: {}
+  service:
+    type: LoadBalancer
+    ports:
+    - name: status-port
+      port: 15021
+      protocol: TCP
+      targetPort: 15021
+    - name: http2
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 443
+    annotations: {}
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    externalTrafficPolicy: ""
+    externalIPs: []
+    ipFamilyPolicy: ""
+    ipFamilies: []
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 2000m
+      memory: 1024Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: {}
+    autoscaleBehavior: {}
+  env: {}
+  strategy: {}
+  minReadySeconds:
+  readinessProbe: {}
+  labels: {}
+  annotations: {}
+  nodeSelector: {}
+  tolerations: []
+  topologySpreadConstraints: []
+  affinity: {}
+  networkGateway: ""
+  imagePullPolicy: ""
+  imagePullSecrets: []
+  podDisruptionBudget: {}
+  terminationGracePeriodSeconds: 30
+  volumes: []
+  volumeMounts: []
+  priorityClassName: ""

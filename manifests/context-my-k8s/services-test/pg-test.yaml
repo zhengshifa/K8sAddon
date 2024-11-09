@@ -21,7 +21,6 @@ spec:
           containers:
           - args:
             - |
-              #!/bin/sh
               /usr/bin/psql -h panweidb-prod-svc.external-service  -U dbadmin  -d postgres -p 17700 -c "SELECT version();"
               if [ $? -eq 0 ]; then
                 echo "  域名 successfully"

@@ -23,7 +23,7 @@ spec:
         app.kubernetes.io/name: falco
         app.kubernetes.io/instance: falco
       annotations:
-        checksum/config: 841f688da66ad0b2ac0da4bfe71a37f6ad56a76b107acdfc9b8422527defaf2f
+        checksum/config: 83f35423949afbf1fdf41af5438b1538ec37ad608336dceb98d2efd04ebea932
         checksum/rules: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/certs: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
     spec:

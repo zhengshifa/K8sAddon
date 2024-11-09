@@ -204,7 +204,5 @@ backup:
       schedule: "0 0 * * *"
       keep: 5
       storageName: fs-pvc
-
-
 secrets:
   tls: {}

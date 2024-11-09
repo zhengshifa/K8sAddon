@@ -1,1 +1,14 @@
-../templates/istio-base/values.yaml.j2
+_internal_defaults_do_not_set:
+  global:
+    imagePullSecrets: []
+    istioNamespace: istio-system
+    platform: ""
+  base:
+    excludedCRDs: []
+    enableCRDTemplates: true
+    validationURL: ""
+    validationCABundle: ""
+    enableIstioConfigCRDs: true
+  defaultRevision: "default"
+  experimental:
+    stableValidationPolicy: false

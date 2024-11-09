@@ -21,41 +21,30 @@ spec:
             - /bin/bash
             - -c
             - |
-              #!/bin/bash
-              # 设置 Kafka 地址
               KAFKA_ADDR="kafka-broker.kafka.svc.cluster.local:9092"
-              # 设置 Topic 名称
               TOPIC="TestTopic"
-              # 创建 Topic
-              kafka-topics --create --topic  --partitions 1 --replication-factor 1 --zookeeper zookeeper:2181
-              # 检查创建 Topic 是否成功
+              kafka-topics --create --topic $TOPIC --partitions 1 --replication-factor 1 --zookeeper zookeeper:2181
               if [ $? -eq 0 ]; then
-                echo "Topic  created successfully"
+                echo "Topic $TOPIC created successfully"
               else
-                echo "Failed to create topic "
+                echo "Failed to create topic $TOPIC"
                 exit 1
               fi
-              # 发送消息
-              echo "Hello, Kafka" | kafka-console-producer --broker-list  --topic  &
+              echo "Hello, Kafka" | kafka-console-producer --broker-list $KAFKA_ADDR --topic $TOPIC &
               sleep 5
-              # 消费消息
-              kafka-console-consumer --bootstrap-server  --topic  --from-beginning | grep "Hello, Kafka"
-              # 检查消费是否成功
+              kafka-console-consumer --bootstrap-server $KAFKA_ADDR --topic $TOPIC --from-beginning | grep "Hello, Kafka"
               if [ $? -eq 0 ]; then
                 echo "Messages consumed successfully"
               else
                 echo "Failed to consume messages"
                 exit 1
               fi
-              # 等待一段时间，确保消息被成功发送和消费
               sleep 5
-              # 删除 Topic
-              kafka-topics --delete --topic  --zookeeper zookeeper:2181
-              # 检查删除 Topic 是否成功
+              kafka-topics --delete --topic $TOPIC --zookeeper zookeeper:2181
               if [ $? -eq 0 ]; then
-                echo "Topic  deleted successfully"
+                echo "Topic $TOPIC deleted successfully"
               else
-                echo "Failed to delete topic "
+                echo "Failed to delete topic $TOPIC"
                 exit 1
               fi
             terminationMessagePath: /dev/termination-log

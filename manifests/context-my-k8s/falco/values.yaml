@@ -1,1 +1,318 @@
-../templates/falco/values.yaml.j2
+image:
+  pullPolicy: IfNotPresent
+  registry: docker.io
+  repository: falcosecurity/falco-no-driver
+  tag: ""
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+namespaceOverride: ""
+podAnnotations: {}
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+rbac:
+  create: true
+podLabels: {}
+podPriorityClassName:
+podSecurityContext: {}
+containerSecurityContext: {}
+scc:
+  create: true
+resources:
+  requests:
+    cpu: 100m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1024Mi
+nodeSelector: {}
+affinity: {}
+tolerations:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/control-plane
+healthChecks:
+  livenessProbe:
+    initialDelaySeconds: 60
+    timeoutSeconds: 5
+    periodSeconds: 15
+  readinessProbe:
+    initialDelaySeconds: 30
+    timeoutSeconds: 5
+    periodSeconds: 15
+tty: true
+controller:
+  kind: daemonset
+  annotations: {}
+  labels: {}
+  daemonset:
+    updateStrategy:
+      type: RollingUpdate
+  deployment:
+    replicas: 1
+services:
+metrics:
+  enabled: false
+  interval: 1h
+  outputRule: false
+  rulesCountersEnabled: true
+  resourceUtilizationEnabled: true
+  stateCountersEnabled: true
+  kernelEventCountersEnabled: true
+  libbpfStatsEnabled: true
+  convertMemoryToMB: true
+  includeEmptyValues: false
+  kernelEventCountersPerCPUEnabled: false
+  service:
+    create: true
+    type: ClusterIP
+    labels: {}
+    annotations: {}
+    ports:
+      metrics:
+        port: 8765
+        targetPort: 8765
+        protocol: "TCP"
+mounts:
+  volumes: []
+  volumeMounts: []
+driver:
+  enabled: true
+  kind: auto
+  kmod:
+    bufSizePreset: 4
+    dropFailedExit: false
+  ebpf:
+    path: "${HOME}/.falco/falco-bpf.o"
+    hostNetwork: false
+    leastPrivileged: false
+    bufSizePreset: 4
+    dropFailedExit: false
+  modernEbpf:
+    leastPrivileged: false
+    bufSizePreset: 4
+    dropFailedExit: false
+    cpusForEachBuffer: 2
+  gvisor:
+    runsc:
+      path: /home/containerd/usr/local/sbin
+      root: /run/containerd/runsc
+      config: /run/containerd/runsc/config.toml
+  loader:
+    enabled: true
+    initContainer:
+      image:
+        pullPolicy: IfNotPresent
+        registry: docker.io
+        repository: falcosecurity/falco-driver-loader
+        tag: ""
+      env: []
+      args: []
+      resources: {}
+      securityContext: {}
+collectors:
+  enabled: true
+  docker:
+    enabled: true
+    socket: /var/run/docker.sock
+  containerd:
+    enabled: true
+    socket: /run/containerd/containerd.sock
+  crio:
+    enabled: true
+    socket: /run/crio/crio.sock
+  kubernetes:
+    enabled: false
+    pluginRef: "ghcr.io/falcosecurity/plugins/plugin/k8smeta:0.2.0"
+    collectorHostname: ""
+    collectorPort: ""
+extra:
+  env: []
+  args: []
+  initContainers: []
+certs:
+  existingSecret: ""
+  server:
+    key: ""
+    crt: ""
+  ca:
+    crt: ""
+  existingClientSecret: ""
+  client:
+    key: ""
+    crt: ""
+customRules:
+  {}
+falcosidekick:
+  enabled: false
+  fullfqdn: false
+  listenPort: ""
+falcoctl:
+  image:
+    pullPolicy: IfNotPresent
+    registry: docker.io
+    repository: falcosecurity/falcoctl
+    tag: "0.10.0"
+  artifact:
+    install:
+      enabled: true
+      env: []
+      args: ["--log-format=json"]
+      resources: {}
+      securityContext: {}
+      mounts:
+        volumeMounts: []
+    follow:
+      enabled: true
+      env: []
+      args: ["--log-format=json"]
+      resources: {}
+      securityContext: {}
+      mounts:
+        volumeMounts: []
+  config:
+    indexes:
+    - name: falcosecurity
+      url: https://falcosecurity.github.io/falcoctl/index.yaml
+    artifact:
+      allowedTypes:
+        - rulesfile
+        - plugin
+      install:
+        resolveDeps: true
+        refs: [falco-rules:3]
+        rulesfilesDir: /rulesfiles
+        pluginsDir: /plugins
+      follow:
+        refs: [falco-rules:3]
+        every: 6h
+        falcoversions: http://localhost:8765/versions
+        rulesfilesDir: /rulesfiles
+        pluginsDir: /plugins
+serviceMonitor:
+  create: false
+  path: /metrics
+  labels: {}
+  selector: {}
+  interval: 15s
+  scheme: http
+  tlsConfig: {}
+  scrapeTimeout: 10s
+  relabelings: []
+  targetLabels: []
+  endpointPort: "metrics"
+grafana:
+  dashboards:
+    enabled: false
+    configMaps:
+      falco:
+        name: falco-grafana-dashboard
+        namespace: ""
+        folder: ""
+falco:
+  rules_files:
+    - /etc/falco/falco_rules.yaml
+    - /etc/falco/falco_rules.local.yaml
+    - /etc/falco/rules.d
+  rule_matching: first
+  outputs_queue:
+    capacity: 0
+  load_plugins: []
+  plugins:
+    - name: k8saudit
+      library_path: libk8saudit.so
+      init_config:
+      open_params: "http://:9765/k8s-audit"
+    - name: cloudtrail
+      library_path: libcloudtrail.so
+    - name: json
+      library_path: libjson.so
+      init_config: ""
+  config_files:
+    - /etc/falco/config.d
+  watch_config_files: true
+  time_format_iso_8601: false
+  priority: debug
+  json_output: false
+  json_include_output_property: true
+  json_include_tags_property: true
+  json_include_message_property: false
+  buffered_outputs: false
+  append_output: []
+  stdout_output:
+    enabled: true
+  syslog_output:
+    enabled: true
+  file_output:
+    enabled: false
+    keep_alive: false
+    filename: ./events.txt
+  http_output:
+    enabled: false
+    url: ""
+    user_agent: "falcosecurity/falco"
+    insecure: false
+    ca_cert: ""
+    ca_bundle: ""
+    ca_path: "/etc/falco/certs/"
+    mtls: false
+    client_cert: "/etc/falco/certs/client/client.crt"
+    client_key: "/etc/falco/certs/client/client.key"
+    echo: false
+    compress_uploads: false
+    keep_alive: false
+  program_output:
+    enabled: false
+    keep_alive: false
+    program: "jq '{text: .output}' | curl -d @- -X POST https://hooks.slack.com/services/XXX"
+  grpc_output:
+    enabled: false
+  grpc:
+    enabled: false
+    bind_address: "unix:///run/falco/falco.sock"
+    threadiness: 0
+  webserver:
+    enabled: true
+    threadiness: 0
+    listen_port: 8765
+    k8s_healthz_endpoint: /healthz
+    prometheus_metrics_enabled: false
+    ssl_enabled: false
+    ssl_certificate: /etc/falco/falco.pem
+  log_stderr: true
+  log_syslog: true
+  log_level: info
+  libs_logger:
+    enabled: false
+    severity: debug
+  output_timeout: 2000
+  syscall_event_timeouts:
+    max_consecutives: 1000
+  syscall_event_drops:
+    threshold: .1
+    actions:
+      - log
+      - alert
+    rate: .03333
+    max_burst: 1
+    simulate_drops: false
+  metrics:
+    enabled: false
+    interval: 1h
+    output_rule: true
+    rules_counters_enabled: true
+    resource_utilization_enabled: true
+    state_counters_enabled: true
+    kernel_event_counters_enabled: true
+    libbpf_stats_enabled: true
+    convert_memory_to_mb: true
+    include_empty_values: false
+    kernel_event_counters_per_cpu_enabled: false
+  base_syscalls:
+    custom_set: []
+    repair: false
+  falco_libs:
+    thread_table_size: 262144

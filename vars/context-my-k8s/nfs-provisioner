@@ -2,13 +2,13 @@
 # ${registry}/${repository}/${image}:${tag}
 #image: gcr.io/k8s-staging-sig-storage/nfs-subdir-external-provisioner:v4.0.1
 
-yaml_install="no"
-namespace="kube-system"
-registry='gcr.io'
-repository='k8s-staging-sig-storage'
-image='nfs-subdir-external-provisioner'
-tag='v4.0.1'
-nfs_server="192.168.137.10"
-nfs_path="/opt/nfs-storage"
-nfs_storage_class="nfs-storage"
-test='yes'
+yaml_install: "no"
+namespace: "kube-system"
+registry: 'gcr.io'
+repository: 'k8s-staging-sig-storage'
+image: 'nfs-subdir-external-provisioner'
+tag: 'v4.0.1'
+nfs_server: "192.168.137.10"
+nfs_path: "/opt/nfs-storage"
+nfs_storage_class: "nfs-storage"
+test: 'yes'

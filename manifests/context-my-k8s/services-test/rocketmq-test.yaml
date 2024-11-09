@@ -17,41 +17,30 @@ spec:
           containers:
           - args:
             - |
-              #!/bin/bash
-              # 设置 RocketMQ 的 Namesrv 地址
               NAMESRV_ADDR="rocketmq-namesrv.olprod:9876"
-              # 设置 Topic 名称
               TOPIC="TestTopic"
-              # 创建 Topic
-              bin/mqadmin updateTopic -n  -c DefaultCluster -t 
-              # 检查创建 Topic 是否成功
+              bin/mqadmin updateTopic -n $NAMESRV_ADDR -c DefaultCluster -t $TOPIC
               if [ $? -eq 0 ]; then
-                echo "Topic  created successfully"
+                echo "Topic $TOPIC created successfully"
               else
-                echo "Failed to create topic "
+                echo "Failed to create topic $TOPIC"
                 exit 1
               fi
-              # 发送消息
-              bin/mqadmin sendMessage -n  -c DefaultCluster -t  -p "Hello, RocketMQ" &
+              bin/mqadmin sendMessage -n $NAMESRV_ADDR -c DefaultCluster -t $TOPIC -p "Hello, RocketMQ" &
               sleep 5
-              # 消费消息
-              bin/mqadmin consumeMessage -n   -t   | grep "Hello, RocketMQ"
-              # 检查消费是否成功
+              bin/mqadmin consumeMessage -n $NAMESRV_ADDR  -t $TOPIC  | grep "Hello, RocketMQ"
               if [ $? -eq 0 ]; then
                 echo "Messages consumed successfully"
               else
                 echo "Failed to consume messages"
                 exit 1
               fi
-              # 等待一段时间，确保消息被成功发送和消费
               sleep 5
-              # 删除 Topic
-              bin/mqadmin deleteTopic -n  -c DefaultCluster -t 
-              # 检查删除 Topic 是否成功
+              bin/mqadmin deleteTopic -n $NAMESRV_ADDR -c DefaultCluster -t $TOPIC
               if [ $? -eq 0 ]; then
-                echo "Topic  deleted successfully"
+                echo "Topic $TOPIC deleted successfully"
               else
-                echo "Failed to delete topic "
+                echo "Failed to delete topic $TOPIC"
                 exit 1
               fi
             command:

@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: kafka-test
-  namespace: "${namespace}"
+  namespace: "{{ namespace }}"
 spec:
   concurrencyPolicy: Allow
   failedJobsHistoryLimit: 0
@@ -21,37 +21,26 @@ spec:
             - /bin/bash
             - -c
             - |
-              #!/bin/bash
-              # 设置 Kafka 地址
               KAFKA_ADDR="kafka-broker.kafka.svc.cluster.local:9092"
-              # 设置 Topic 名称
               TOPIC="TestTopic"
-              # 创建 Topic
               kafka-topics --create --topic $TOPIC --partitions 1 --replication-factor 1 --zookeeper zookeeper:2181
-              # 检查创建 Topic 是否成功
               if [ $? -eq 0 ]; then
                 echo "Topic $TOPIC created successfully"
               else
                 echo "Failed to create topic $TOPIC"
                 exit 1
               fi
-              # 发送消息
               echo "Hello, Kafka" | kafka-console-producer --broker-list $KAFKA_ADDR --topic $TOPIC &
               sleep 5
-              # 消费消息
               kafka-console-consumer --bootstrap-server $KAFKA_ADDR --topic $TOPIC --from-beginning | grep "Hello, Kafka"
-              # 检查消费是否成功
               if [ $? -eq 0 ]; then
                 echo "Messages consumed successfully"
               else
                 echo "Failed to consume messages"
                 exit 1
               fi
-              # 等待一段时间，确保消息被成功发送和消费
               sleep 5
-              # 删除 Topic
               kafka-topics --delete --topic $TOPIC --zookeeper zookeeper:2181
-              # 检查删除 Topic 是否成功
               if [ $? -eq 0 ]; then
                 echo "Topic $TOPIC deleted successfully"
               else
@@ -64,6 +53,6 @@ spec:
           restartPolicy: OnFailure
           schedulerName: default-scheduler
           terminationGracePeriodSeconds: 30
-  schedule: "${services_test_schedule}"
+  schedule: "{{ services_test_schedule }}"
   successfulJobsHistoryLimit: 1
   suspend: false

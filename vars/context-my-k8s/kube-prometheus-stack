@@ -1,11 +1,11 @@
 # kube-prometheus-stack
 
 ## helm_install值可以是yes(安装)/no(卸载),null为无任何动作
-helm_install="no"
+helm_install: "no"
 ## 更新helmy  (yes)
-helm_upgrade=""
+helm_upgrade: ""
 
 
-namespace="kube-prometheus-stack"
-chart_ver="65.5.1"
-release_name="kube-prometheus-stack"
+namespace: "kube-prometheus-stack"
+chart_ver: "65.5.1"
+release_name: "kube-prometheus-stack"

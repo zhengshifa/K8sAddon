@@ -1,1 +1,66 @@
-../templates/node-problem-detector/values.yaml.j2
+settings:
+  custom_monitor_definitions: {}
+  log_monitors:
+    - /config/kernel-monitor.json
+    - /config/docker-monitor.json
+  custom_plugin_monitors: []
+  extraArgs: []
+  prometheus_address: 0.0.0.0
+  prometheus_port: 20257
+  heartBeatPeriod: 5m0s
+logDir:
+  host: /var/log/
+  pod: ""
+image:
+  repository: registry.k8s.io/node-problem-detector/node-problem-detector
+  tag: v0.8.19
+  digest: ""
+  pullPolicy: IfNotPresent
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+rbac:
+  create: true
+  pspEnabled: false
+hostNetwork: false
+hostPID: false
+volume:
+  localtime:
+    type: "FileOrCreate"
+priorityClassName: system-node-critical
+securityContext:
+  privileged: true
+resources: {}
+annotations: {}
+labels: {}
+tolerations:
+  - effect: NoSchedule
+    operator: Exists
+serviceAccount:
+  create: true
+  annotations: {}
+  labels: {}
+  name:
+affinity: {}
+nodeSelector: {}
+metrics:
+  enabled: false
+  annotations: {}
+  serviceMonitor:
+    enabled: false
+    additionalLabels: {}
+    additionalRelabelings: []
+    metricRelabelings: []
+  prometheusRule:
+    enabled: false
+    defaultRules:
+      create: true
+      disabled: []
+    additionalLabels: {}
+    additionalRules: []
+env:
+extraVolumes: []
+extraVolumeMounts: []
+extraContainers: []
+updateStrategy: RollingUpdate
+maxUnavailable: 1

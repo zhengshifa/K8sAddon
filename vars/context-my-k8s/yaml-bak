@@ -1,10 +1,10 @@
 #
-yaml_install="no"
-namespace=kube-system
-schedule="* */6 * * *"
-local_path_provisioner_dir="/opt/local-path-provisioner"
-registry='xxx.com'
-repository='zsf'
-image='katafygio'
-tag='latest'
-yaml_bak_git_url="http://zhengshifa:FKzu5v6mM21jUc9NaqZJ@xxx.xxx.68.29:8099/xxx/k8s-test-dump.git"
+yaml_install: "no"
+namespace: kube-system
+schedule: "* */6 * * *"
+local_path_provisioner_dir: "/opt/local-path-provisioner"
+registry: 'xxx.com'
+repository: 'zsf'
+image: 'katafygio'
+tag: 'latest'
+yaml_bak_git_url: "http://zhengshifa:FKzu5v6mM21jUc9NaqZJ@xxx.xxx.68.29:8099/xxx/k8s-test-dump.git"

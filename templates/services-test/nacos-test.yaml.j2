@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: nacos-test
-  namespace: "${namespace}"
+  namespace: "{{ namespace }}"
 spec:
   concurrencyPolicy: Allow
   failedJobsHistoryLimit: 0
@@ -17,7 +17,6 @@ spec:
           containers:
           - args:
             - |
-              #!/bin/sh
               curl -sS --fail --connect-timeout 5 -X POST 'http://nacos-headless-stand.olprod.svc.cluster.local:8848/nacos/v1/ns/instance?serviceName=nacos.naming.serviceName&ip=20.18.7.10&port=8080'
               curl -sS --fail --connect-timeout 5 -X GET 'http://nacos-headless-stand.olprod.svc.cluster.local:8848/nacos/v1/ns/instance/list?serviceName=nacos.naming.serviceName' | grep "20.18.7.10"
               if [ $? -eq 0 ]; then
@@ -38,6 +37,6 @@ spec:
           restartPolicy: OnFailure
           schedulerName: default-scheduler
           terminationGracePeriodSeconds: 30
-  schedule: "${services_test_schedule}"
+  schedule: "{{ services_test_schedule }}"
   successfulJobsHistoryLimit: 1
   suspend: false

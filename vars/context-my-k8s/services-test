@@ -1,9 +1,9 @@
 # service-test
 
-yaml_install="no"
-namespace="kube-system"
-services_test_schedule="*/5 * * * *"
-registry='easzlab.io.local:5000'
-repository='easzlab'
-image='nfs-subdir-external-provisioner'
-tag='v4.0.1'
+yaml_install: "no"
+namespace: "kube-system"
+services_test_schedule: "*/5 * * * *"
+registry: 'easzlab.io.local:5000'
+repository: 'easzlab'
+image: 'nfs-subdir-external-provisioner'
+tag: 'v4.0.1'

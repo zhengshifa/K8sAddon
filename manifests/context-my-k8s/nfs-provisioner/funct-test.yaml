@@ -1,1 +1,33 @@
-../templates/nfs-provisioner/funct-test.yaml.j2
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nfs-volume-test-claim
+spec:
+  storageClassName: nfs-storage
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Mi
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: nfs-volume-test-pod
+spec:
+  containers:
+  - name: test-pod
+    image: busybox
+    command:
+      - "/bin/sh"
+    args:
+      - "-c"
+      - "touch /mnt/SUCCESS && exit 0 || exit 1"
+    volumeMounts:
+      - name: nfs-pvc
+        mountPath: "/mnt"
+  restartPolicy: "Never"
+  volumes:
+    - name: nfs-pvc
+      persistentVolumeClaim:
+        claimName: nfs-volume-test-claim
