@@ -21,12 +21,12 @@ fn_deploy() {
         else
             kubectx "$env_var"
         fi
-
+        (  # (xx) 隔离变量
         for file in "$base_dir"/vars/$env_var/*; do
             [ -e "$file" ] || fn_log_error "$file 配置文件不存在"  # 检查文件是否存在
             filename=$(basename "$file") # 获取变量的文件名
             manifests_dir=${base_dir}/manifests/${env_var}/${filename}
-            (  # (xx) 隔离变量
+
             echo -e "\033[35m 正在执行 环境:$env_var 中 $filename 相关操作...\033[0m"
             helm_upgrade=$(grep "^helm_upgrade:" $file | sed 's/.*: *"\(.*\)"/\1/')
             helm_install=$(grep "^helm_install:" $file | sed 's/.*: *"\(.*\)"/\1/')
@@ -48,10 +48,10 @@ fn_deploy() {
             fi
             echo -e "\033[35m 环境:$env_var  $filename 处理完成\033[0m"
 
-            )
+            
             sleep 1
         done
-
+        )
     done
     
 }
