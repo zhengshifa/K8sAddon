@@ -2,78 +2,41 @@
 
 1. 安装 NFS 服务
 在服务器上安装 NFS 服务器:
-
-对于 CentOS/RHEL:
-bash
-
 sudo yum  -y install nfs-utils
 对于 Ubuntu/Debian:
-bash
-
 sudo apt-get install nfs-kernel-server
+
 2. 配置 NFS 导出目录
-创建一个共享目录（例如 /srv/nfs):
-
-bash
-
 mkdir -p /opt/nfs-storage
 chmod  777 /opt/nfs-storage
-
-
-编辑 /etc/exports 文件，添加导出目录及访问权限。例如:
-
 cat > /etc/exports << 'eof'
 /opt/nfs-storage *(rw,sync,no_subtree_check)
 eof
 
 3. 启动 NFS 服务
-bash
-
 sudo systemctl start nfs-server
 sudo systemctl enable nfs-server
+
 4. 检查 NFS 导出状态
-使用以下命令查看导出的目录:
-
-bash
-
 sudo exportfs -v
-5. 在客户端挂载 NFS 共享
-安装 NFS 客户端:
-对于 CentOS/RHEL:
-bash
 
+5. 在客户端挂载 NFS 共享
 sudo yum install nfs-utils
 对于 Ubuntu/Debian:
-bash
-
 sudo apt-get install nfs-common
 
 挂载 NFS 共享:
-
-bash
-
 mkdir -p /tmp/mount
 sudo mount -t nfs 192.168.137.11:/opt/nfs-storage /tmp/mount
-将 <server_ip> 替换为 NFS 服务器的 IP 地址。
 
 验证挂载:
-
-bash
-
 df -h
-6. 设置开机自动挂载（可选)
-在客户端的 /etc/fstab 文件中添加一行，以便在启动时自动挂载:
 
-bash
-
+6. 设置开机自动挂载
+cat >> /etc/fstab << 'eof'
 <server_ip>:/srv/nfs /mnt/nfs nfs defaults 0 0
+eof
+
 7. 卸载 NFS 共享
-要卸载 NFS 共享，可以使用:
-
-bash
-
 sudo umount /tmp/mount
 rm -rf /tmp/mount
-
-
-### 启动var变量
