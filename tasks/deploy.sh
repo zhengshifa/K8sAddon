@@ -21,8 +21,9 @@ fn_deploy() {
         else
             kubectx "$env_var"
         fi
-        (  # (xx) 隔离变量
+
         for file in "$base_dir"/vars/$env_var/*; do
+        (  # (xx) 隔离变量
             [ -e "$file" ] || fn_log_error "$file 配置文件不存在"  # 检查文件是否存在
             filename=$(basename "$file") # 获取变量的文件名
             manifests_dir=${base_dir}/manifests/${env_var}/${filename}
@@ -50,8 +51,9 @@ fn_deploy() {
 
             
             sleep 1
-        done
         )
+        done
+
     done
     
 }

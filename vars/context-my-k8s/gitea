@@ -1,0 +1,16 @@
+# 
+
+## helm_install值可以是yes(安装)/no(卸载),null为无任何动作
+helm_install: "no"
+## 更新helmy  (yes)
+helm_upgrade: ""
+
+# base
+namespace: "argo-cd"
+chart_ver: "7.6.12"
+release_name: "argo-cd"
+
+# ha
+redis_ha: 'true'
+ingress_enabled: 'true'
+ingress_class_name: 'istio-ingress'

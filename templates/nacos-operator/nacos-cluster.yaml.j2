@@ -21,6 +21,6 @@ spec:
     enabled: true
     requests:
       storage: 1Gi
-    storageClass: nfs-storage
+    storageClass: {{ nfs_storage_class }}
   config: |
     management.endpoints.web.exposure.include=*
