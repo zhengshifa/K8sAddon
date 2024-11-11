@@ -2,7 +2,7 @@
 # ${registry}/${repository}/${image}:${tag}
 #image: gcr.io/k8s-staging-sig-storage/nfs-subdir-external-provisioner:v4.0.1
 
-yaml_install: "no"
+yaml_install: "yes"
 namespace: "kube-system"
 registry: 'gcr.io'
 repository: 'k8s-staging-sig-storage'
