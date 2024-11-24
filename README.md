@@ -20,3 +20,8 @@
 
 ## 原地升级 待补充学习
 [https://openkruise.io/zh/docs/](https://openkruise.io/zh/docs/)
+
+https://rbac-manager.docs.fairwinds.com/introduction/#an-example
+https://cert-manager.io/
+https://github.com/kubereboot/kured
+https://github.com/benc-uk/kubeview
