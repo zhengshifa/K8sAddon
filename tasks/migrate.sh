@@ -12,7 +12,7 @@ base_dir=/etc/k8s-addon
 fn_migrate() {
     for file in "$base_dir"/vars/*; do
         . $base_dir/vars/$file
-        # 示例：迁移到新的namespace
+        # 示例:迁移到新的namespace
         new_namespace="${namespace}-migrated"
         kubectl get ns ${new_namespace} || kubectl create ns ${new_namespace}
         helm upgrade ${release_name} --install -n ${new_namespace} -f ${base_dir}/templates/${file}/values.yaml

@@ -8,10 +8,10 @@ https://github.com/percona/percona-xtradb-cluster-operator.git
 
 ## 版本矩阵
 Operator	MySQL	    Percona XtraBackup	        HA	        proxySQL
-1.14.0	    8.0, 5.7	8.0.35-30.1，2.4.29-1	    2.8.5-1	    2.5.5-1.1
-1.13.0	    8.0, 5.7	8.0.32-26， 2.4.28	        2.6.12	    2.5.1-1.1
-1.12.0	    8.0, 5.7	8.0.30-23， 2.4.26	        2.5.6	    2.4.4
-1.11.0	    8.0, 5.7	8.0.27-19， 2.4.26	        2.4.15	    2.3.2
+1.14.0	    8.0, 5.7	8.0.35-30.1,2.4.29-1	    2.8.5-1	    2.5.5-1.1
+1.13.0	    8.0, 5.7	8.0.32-26, 2.4.28	        2.6.12	    2.5.1-1.1
+1.12.0	    8.0, 5.7	8.0.30-23, 2.4.26	        2.5.6	    2.4.4
+1.11.0	    8.0, 5.7	8.0.27-19, 2.4.26	        2.4.15	    2.3.2
 
 ## 部署Operator和db集群(更换合适本地镜像)
 
@@ -142,7 +142,7 @@ https://docs.percona.com/percona-operator-for-mysql/pxc/update.html
 ## 崩溃恢复
 
 #全集群崩溃
-全集群崩溃是指所有数据库实例都 以随机顺序关闭。在这种情况下重新启动后，Pod 是 不断重新启动，并在日志中生成以下错误:
+全集群崩溃是指所有数据库实例都 以随机顺序关闭。在这种情况下重新启动后,Pod 是 不断重新启动,并在日志中生成以下错误:
 It may not be safe to bootstrap the cluster from this node. It was not the last one to leave the cluster and may not contain all the updates.
 To force cluster bootstrap with this node, edit the grastate.dat file manually and set safe_to_bootstrap to 1
 
@@ -150,7 +150,7 @@ To force cluster bootstrap with this node, edit the grastate.dat file manually a
 #自动崩溃恢复
 开启参数 : pxc.autoRecovery
 如果没有开启上面的自动恢复,可以进行半自动恢复
-在这种情况下，您需要从所有 Pod 的 pxc 容器中获取日志 使用以下命令：
+在这种情况下,您需要从所有 Pod 的 pxc 容器中获取日志 使用以下命令:
 for i in $(seq 0 $(($(kubectl get pxc cluster1 -o jsonpath='{.spec.pxc.size}')-1))); do echo "###############cluster1-pxc-$i##############"; kubectl logs cluster1-pxc-$i -c pxc | grep '(seqno):' ; done
 找到最大的 Pod 执行
 kubectl exec cluster1-pxc-2 -c pxc -- sh -c 'kill -s USR1 1'
@@ -159,7 +159,7 @@ kubectl exec cluster1-pxc-2 -c pxc -- sh -c 'kill -s USR1 1'
 
 ## 暂停/恢复 Percona XtraDB 集群
 
-将其设置为正常停止集群：cr.yaml  spec.pause true/false
+将其设置为正常停止集群:cr.yaml  spec.pause true/false
 kubectl apply -f ../manifests/mysql-operator/manifests/cr.yaml -n <namespace>
 kubectl get pods -n <namespace>
 

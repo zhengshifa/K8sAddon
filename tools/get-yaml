@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## 渲染 templates 的模板并显示生成的 Kubernetes 资源文件，但不应用到集群。
+## 渲染 templates 的模板并显示生成的 Kubernetes 资源文件,但不应用到集群。
 
 
 

@@ -9,7 +9,7 @@ https://github.com/spotahome/redis-operator
 ### 操作员部署
 
 kubectl create -f  manifests/redis-operator-crd.yaml
-原始内容如下：
+原始内容如下:
 REDIS_OPERATOR_VERSION=v1.3.0
 kubectl create -f https://raw.githubusercontent.com/spotahome/redis-operator/${REDIS_OPERATOR_VERSION}/manifests/databases.spotahome.com_redisfailovers.yaml
 kubectl apply -f https://raw.githubusercontent.com/spotahome/redis-operator/${REDIS_OPERATOR_VERSION}/example/operator/all-redis-operator-resources.yaml
@@ -18,10 +18,10 @@ kubectl apply -f https://raw.githubusercontent.com/spotahome/redis-operator/${RE
 
 #基础redis集群创建
 kubectl create -f manifests/redisfailover.yaml
-原始内容参考：
+原始内容参考:
 REDIS_OPERATOR_VERSION=v1.2.4
 kubectl create -f https://raw.githubusercontent.com/spotahome/redis-operator/${REDIS_OPERATOR_VERSION}/example/redisfailover/basic.yaml
-注：自定义参数请参考 https://github.com/spotahome/redis-operator/tree/master/example/redisfailover
+注:自定义参数请参考 https://github.com/spotahome/redis-operator/tree/master/example/redisfailover
 
 ### NodeAffinity 和容忍度
 待补充...

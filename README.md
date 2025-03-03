@@ -1,7 +1,7 @@
 # K8sAddon - Kubernetes Operator 管理平台
 
 ## 项目概述
-K8sAddon 是一个用于管理 Kubernetes Operator 的平台，提供以下功能：
+K8sAddon 是一个用于管理 Kubernetes Operator 的平台,提供以下功能:
 - 多种常用 Operator 的一键部署
 - 统一的配置管理
 - 标准化的运维操作流程
@@ -28,9 +28,9 @@ K8sAddon/
 - 配置 kubeconfig 文件
 
 ### 2. 安装Operator
-1. 编辑 vars/global_vars 文件，设置目标集群信息
+1. 编辑 vars/global_vars 文件,设置目标集群信息
 2. 设置 install="yes"
-3. 执行部署脚本：
+3. 执行部署脚本:
 ```bash
 ./tasks/deploy.sh
 ```
@@ -38,20 +38,20 @@ K8sAddon/
 ## 运维操作指南
 
 ### 部署/删除
-- 部署：`./tasks/deploy.sh`
-- 删除：`./tasks/deploy.sh uninstall`
+- 部署:`./tasks/deploy.sh`
+- 删除:`./tasks/deploy.sh uninstall`
 
 ### 升级/回滚  
-- 升级：`./tasks/deploy.sh upgrade`
-- 回滚：`./tasks/deploy.sh rollback`
+- 升级:`./tasks/deploy.sh upgrade`
+- 回滚:`./tasks/deploy.sh rollback`
 
 ### 监控告警
-- 查看监控：`kubectl get prometheusrules -n monitoring`
-- 配置告警：编辑 templates/kube-prometheus-stack/alerts.yaml
+- 查看监控:`kubectl get prometheusrules -n monitoring`
+- 配置告警:编辑 templates/kube-prometheus-stack/alerts.yaml
 
 ### 备份恢复
-- 备份：`./tasks/backup.sh`
-- 恢复：`./tasks/restore.sh`
+- 备份:`./tasks/backup.sh`
+- 恢复:`./tasks/restore.sh`
 
 ## 参考文档
 - [OpenKruise 原地升级](https://openkruise.io/zh/docs/)

@@ -1,6 +1,6 @@
 使用
 导入规则
-安装包中的rule目录下提供了demo规则，可根据需求自定义规则。
+安装包中的rule目录下提供了demo规则,可根据需求自定义规则。
 
 注意 prometheus 规则需提前为规则设置prometheus的endpoint。
 
@@ -13,16 +13,16 @@ kind: InspectPlan
 metadata:
   name: inspectplan
 spec:
-  # 需要执行检查的计划时间，仅支持cron表达式，例："*/30 * * * ?"表示每30分钟执行一次巡检。
-  # 如果仅需单次巡检，则将该参数移除。
+  # 需要执行检查的计划时间,仅支持cron表达式,例:"*/30 * * * ?"表示每30分钟执行一次巡检。
+  # 如果仅需单次巡检,则将该参数移除。
   schedule: "*/30 * * * ?"
-  # 巡检结果最大保留数量，不填写则是保留全部
+  # 巡检结果最大保留数量,不填写则是保留全部
   maxTasks: 10 
-  # 是否暂停巡检计划, 仅作用于周期巡检，true 或 flase （默认false）
+  # 是否暂停巡检计划, 仅作用于周期巡检,true 或 flase （默认false）
   suspend: false
   # 巡检超时时间, 默认 10m
   timeout: 10m
-  # 巡检规则列表，用于关联对应的巡检规则，填写 inspectRule 名称
+  # 巡检规则列表,用于关联对应的巡检规则,填写 inspectRule 名称
   # 可通过 kubectl get inspectrule 查看集群中巡检规则
   ruleNames:
     - name: inspect-rule-filter-file
@@ -46,7 +46,7 @@ EOF
 kubectl apply -f plan.yaml
 巡检报告获取
 查询巡检结果
-# 查看巡检结果名称，用于后续巡检报告下载
+# 查看巡检结果名称,用于后续巡检报告下载
 kubectl get inspectresult
 获取巡检报告
 命令行方式下载

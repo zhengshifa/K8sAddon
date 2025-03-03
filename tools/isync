@@ -63,7 +63,7 @@ create_repo() {
     response=$(curl -s -X GET --max-time 3 -H "Content-Type: application/json" -H "Authorization: Basic $auth_base" http://$local_registry/api/v2.0/projects?name=$repo)
 
     if [[ $response == "[]" || $response == "" ]]; then
-        # 如果项目不存在，创建项目
+        # 如果项目不存在,创建项目
         curl -s -X POST --max-time 3 -H "Content-Type: application/json" -H "Authorization: Basic $auth_base" \
         -d "{\"project_name\": \"${repo}\", \"public\": true}" \
         http://$local_registry/api/v2.0/projects &> /dev/null # ||  { logger error "curl创建harbor仓库失败,请检查harbor配置信息"; exit 1; }

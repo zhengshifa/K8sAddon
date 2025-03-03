@@ -17,7 +17,7 @@ fn_config_management() {
         if [ $? -eq 0 ]; then
             fn_log_info "配置文件无变化"
         else
-            fn_log_warn "检测到配置文件变化，应用更新"
+            fn_log_warn "检测到配置文件变化,应用更新"
             kubectl apply -f ${base_dir}/templates/${file}/values.yaml
         fi
     done
